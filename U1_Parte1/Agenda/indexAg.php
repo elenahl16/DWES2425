@@ -1,3 +1,8 @@
+<?php
+require_once 'Modelo.php';
+$modelo = new Modelo('agenda.txt');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +21,7 @@
  <div>
     <label for="telefono">Telefono</label></br>
     <input type="text" name="telefono" id="telefono" pattern="[0-9]{9}"
-    value="<?php echo (isset($_POST['telefono']) ?$_POST['telefono']:'') ?>"/>
+    value="<?php echo (isset($_POST['telefono']) ?$_POST['telefono']:'')?>"/>
 </div>
 <div>
     <label>Tipo</label></br>
@@ -46,7 +51,25 @@
 
             echo '<h3 style="color:red;">Error, hay campos vacíos</h3>';
 
+        }else{
+            $id = $modelo->obtenerID();
+            //El nombre de fichero sera el instante de tiempo en el que
+
+            $nombreFichero='img/'.time().$_FILES['foto']['name'];
+            $c= new Conctacto($id,$_POST['nombre'],$_POST['telefono'],$_POST['tipo'],$nombreFichero);
+
+            //Guardamos el contacto en el fichero
+            $modelo->crearContacto($c);
+
+            //Guardar la foto en el servidor
+            $destino=$nombreFichero;
+            $origen=$_FILES['foto']['tmp_name'];
+            move_uploaded_file($origen,$destino);
+
         }
+
+    }else{
+
     }
 
     ?>
