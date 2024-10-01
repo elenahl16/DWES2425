@@ -30,11 +30,11 @@ $modelo = new Modelo('agenda.txt');
 
     <label for="familia">Familia</label>
     <input type="radio" id="familia" name="tipo" value="familia"
-    <?php echo ((isset($_POST['tipo']) and $_POST['tipo'] == 'familia') ? 'checked="checked"':'')?>/>
+    <?php echo ((isset($_POST['tipo']) and $_POST['tipo'] == 'familia') ?'checked="checked"':'')?>/>
     
     <label for="otros">Otros</label>
     <input type="radio" id="otros" name="tipo" value="otros"
-    <?php echo ((isset($_POST['tipo']) and $_POST['tipo'] == 'otros') ? 'checked="checked"':'')?>/>
+    <?php echo ((isset($_POST['tipo']) and $_POST['tipo'] == 'otros') ?'checked="checked"':'')?>/>
  </div>
  <div>
     <label for="fotos">Fotos</label>
@@ -52,10 +52,18 @@ $modelo = new Modelo('agenda.txt');
             echo '<h3 style="color:red;">Error, hay campos vacíos</h3>';
 
         }else{
+
+            //chequear si ya hay un contacto para el telefono
+            
+            $persona = $modelo->obtenerContacto($_POST['telefono']);
+
+            //persona tiene null si no hay contacto y un objeto contacto
+            if($persona==null){
+        
             $id = $modelo->obtenerID();
             //El nombre de fichero sera el instante de tiempo en el que
 
-            $nombreFichero='img/'.time().$_FILES['foto']['name'];
+            $nombreFichero='img/'.time().$_FILES['fotos']['name'];
             $c= new Conctacto($id,$_POST['nombre'],$_POST['telefono'],$_POST['tipo'],$nombreFichero);
 
             //Guardamos el contacto en el fichero
@@ -63,15 +71,39 @@ $modelo = new Modelo('agenda.txt');
 
             //Guardar la foto en el servidor
             $destino=$nombreFichero;
-            $origen=$_FILES['foto']['tmp_name'];
+            $origen=
+            $_FILES['fotos']['tmp_name'];
             move_uploaded_file($origen,$destino);
-
+            }
+            else{
+                  echo '<h3 style="color:red;"> Error.Ya existe un contacto con ese telefono'.$persona->getNombre().'</h3>';
+            }
         }
 
-    }else{
-
     }
+    
+    echo '<table border="1">';
+    echo '<tr>';
+    echo '<th>ID</th>';
+    echo '<th>Nombre</th>';
+    echo '<th>Telefono</th>';
+    echo '<th>Tipo</th>';
+    echo '<th>Foto</th>';
+    echo '</tr>';
 
+    //Mostramos contactos de la agenda
+    $contactos = $modelo->obtenerContactos();
+    foreach($contactos as $c){
+        echo '<tr>';
+        echo '<td>'.$c->getId().'</td>';
+        echo '<td>'.$c->getNombre().'</td>';
+        echo '<td>'.$c->getTelefono().'</td>';
+        echo '<td>'.$c->getTipo().'</td>';
+        echo '<td><img src="'.$c->getFoto().'" width="120px"/></td>';
+        echo '</tr>';
+    }
     ?>
+    </table>
+
 </body>
 </html>

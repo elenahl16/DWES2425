@@ -72,6 +72,39 @@ class Modelo{
 
     }
 
+    function obtenerContacto($telefono){
+
+        //devuelve null si no hay un contacto para el telefono buscado
+        //devuelve un objeto contacto si, si hay un contacto
+
+        $resultado=null;
+        try {
+
+            if(file_exists($this->nombreFichero                                                                                                         )){
+              $registros = file($this->nombreFichero);  
+                foreach($registros as $linea){
+                    $campo= explode(";",$linea);
+                    if($campo[2]==$telefono){
+
+                        //he encontrado un contacto para el telefono buscado
+                        $resultado = new Conctacto($campo[0],$campo[1],$campo[2],$campo[3],$campo[4]);
+
+                    }
+                }
+
+
+            }
+          
+
+        } catch (\Throwable $th) {
+            echo 'Error al obtener contacto'.$th->getMessage();
+        }
+
+        return $resultado;
+
+    }
+
+
 
 }
 ?>
