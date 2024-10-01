@@ -11,7 +11,7 @@
 <form action="#" method="post" enctype="multipart/form-data"> 
 <div>
     <label for="fecha_nota">Fecha creacion Notas</label>
-    <input type="date" name="fecha_nota" id="fecha_nota" 
+    <input type="date" name="fecha_nota" id="fecha_nota" >
  
 </div>
 
