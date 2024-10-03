@@ -3,7 +3,7 @@ require_once "Modelo.php";
 $modelo = new Modelo(); //creamos un objeto de la clase modelo
 
 //tenemos que cargar todas las asignaturas en un array
-$asignatura = $modelo->obtenerAsignatura();
+$asignatura = $modelo->obtenerAsignaturas();
 
 ?>
 
@@ -26,10 +26,10 @@ $asignatura = $modelo->obtenerAsignatura();
 
                 <!-- Hay que hacer un option para cada asignatura-->
                 <?php
+                //lo que hago es recorrer
                 foreach($asignatura as $a){
                     echo "<option>".$a. "</option>";
                 }
-                
 
                 ?>
 
@@ -58,10 +58,7 @@ $asignatura = $modelo->obtenerAsignatura();
         </div>
         </br>
         <button type="submit">Crear Notas</button>
-
-
     </form>
-
 </body>
 
 </html>

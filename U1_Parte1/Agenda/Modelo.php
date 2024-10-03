@@ -7,7 +7,6 @@ class Modelo{
 
     function __construct($nombreFichero) {
 
-        $this-> nombreFichero=$nombreFichero;
         
     }
     
@@ -41,7 +40,7 @@ class Modelo{
                     $campo=explode(';',$linea);
                     $resultado[]=new Conctacto($campo[0],$campo[1],$campo[2],$campo[3],$campo[4]);
 
-                }
+                } 
             }
            
         } catch (\Throwable $th) {
