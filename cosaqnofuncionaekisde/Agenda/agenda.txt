@@ -1,0 +1,5 @@
+1;Maria Dolores;234567896;familia;img/1727766121Captura de pantalla de 2024-09-30 12-41-14.png
+2;az;234567896;amigo;img/1727766137Captura de pantalla de 2024-09-30 12-41-14.png
+3;az;234567896;amigo;img/1727767558Captura de pantalla de 2024-09-30 12-41-14.png
+4;Elena;123456789;familia;img/1727768137Captura de pantalla de 2024-09-30 12-41-14.png
+5;Elena;123456789;familia;img/1727768351Captura de pantalla de 2024-09-30 12-41-14.png
