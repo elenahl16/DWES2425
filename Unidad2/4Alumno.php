@@ -51,35 +51,28 @@
         <input type="submit" name="enviar" value="Enviar"></input>
         <input type="reset" value="Cancelar"></input>
     </form>
-
     <?php
     if(isset($_POST['enviar'])){
-
-        echo "Nombre: ".$_POST['nombre'];
-        echo "<br/>Curso: ".$_POST['curso'];
-        echo "<br/> Asignatura: ";
-
+        echo "Nombre:".$_POST['nombre'];
+        echo "<br/>Curso:".$_POST['curso'];
+        echo "<br/>Asignaturas:";
+        //Hay que chequear si se ha marcado alguna asignatura
         if(isset($_POST['asig'])){
-            //Hay que chequear si se ha marcado alguna asignatura
             foreach($_POST['asig'] as $a){
-                echo $a.'';
-
+                echo $a.' ';
             }
-            echo "<br/> Sexo: ".$_POST['sexo'];
-            echo "<br/> Otro: ";
-
-            if(isset($_POST['otros'])){
-                foreach($_POST['otros'] as $o){
-                    echo $o.'';
-    
-                }
-            }
-
         }
-        
+        //Chequear si hay sexo seleccionado
+        if(isset($_POST['sexo']))
+             echo "<br/>Sexo:".$_POST['sexo'];
+        echo "<br/>Otros:";
+        //Chequear si se ha marcado alguno
+        if(isset($_POST['otros'])){
+            foreach($_POST['otros'] as $o){
+                echo $o.' ';
+            }
+        }
     }
-
     ?>
-    
 </body>
 </html>

@@ -41,11 +41,7 @@
                     $datos["edad"] = $_POST['edad'];
                     $datos["estatura"] = $_POST['estatura'];
 
-                    
-                   
-                    
-                  
-
+          
                   // Pintar en tabla
                   echo "<br><br>";
                   echo "<table border = '1'>";

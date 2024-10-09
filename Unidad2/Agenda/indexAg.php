@@ -29,7 +29,6 @@ $modelo = new Modelo('agenda.txt');
             <label>Tipo</label></br>
             <label for="amigo">Amigo</label>
             <input type="radio" id="amigo" name="tipo" value="amigo" checked="checked" />
-
             <label for="familia">Familia</label>
             <input type="radio" id="familia" name="tipo" value="familia"
                 <?php echo ((isset($_POST['tipo']) and $_POST['tipo'] == 'familia') ? 'checked="checked"' : '') ?> />

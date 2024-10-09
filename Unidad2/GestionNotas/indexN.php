@@ -20,7 +20,7 @@ $asignatura = $modelo->obtenerAsignaturas();
 
     <form action="" method="post">
         <div>
-            <label for="asign">Asignatura</label></br>
+            <label form="asign">Asignatura</label></br>
             <select name="asign" id="asign">
 
                 <!-- Hay que hacer un option para cada asignatura-->
@@ -36,13 +36,13 @@ $asignatura = $modelo->obtenerAsignaturas();
         </div>
         </br>
         <div>
-            <label for="fecha_nota">Fecha creacion Notas:</label>
+            <label form="fecha_nota">Fecha creacion Notas:</label>
             <input type="date" name="fecha_nota" id="fecha_nota">
         </div>
 
         </br>
         <div>
-            <label for="descrip">Descripcion:</label>
+            <label form="descrip">Descripcion:</label>
             <input type="text" name="descrip" id="descrip">
 
         </div>
@@ -50,10 +50,10 @@ $asignatura = $modelo->obtenerAsignaturas();
         <div>
             <label>Tipo:</label></br>
             <input type="radio" name="tipo" id="ex" value="Examen" checked="checked">
-            <label for="examen">Examen</label>
+            <label form="examen">Examen</label>
 
             <input type="radio" name="tipo" id="tarea" value="Tarea" checked="checked">
-            <label for="tarea">Tarea</label>
+            <label form="tarea">Tarea</label>
         </div>
         </br>
         <button type="submit">Crear Notas</button>

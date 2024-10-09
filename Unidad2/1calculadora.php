@@ -5,13 +5,6 @@ if(!empty($_GET['n1']) and !empty($_GET['n2'])){
     $n1=$_GET['n1'];
     $n2=$_GET['n2'];
 
-
-
-
-
-
-    AJJA LOL EKISDE
-
     //Comprobar si se ha pulsado +
     if(isset($_GET['+'])){
         $operador = "+";
@@ -70,3 +63,4 @@ else{
     ?>
 </body>
 </html>
+
