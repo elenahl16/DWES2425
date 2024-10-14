@@ -12,3 +12,7 @@
     ?>
 </body>
 </html>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
