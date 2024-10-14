@@ -1,10 +1,11 @@
 <?php
-class Datos{
+class Evento{
 
     private $fecha,$hora,$asunto;
 
     function __construct() {
-        
+
+     
     }
 
 
