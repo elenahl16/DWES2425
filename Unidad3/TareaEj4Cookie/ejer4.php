@@ -39,6 +39,7 @@ require_once "datos.php"
 <?php
 //validamos que se han introducido datos
     if(isset($_POST["crear"])){
+        
         //si estan rellano los datos
         if(!empty($_POST['fecha']) || !empty($_POST['hora']) || !empty($_POST['fecha'])){
             $datosEvent= new Datos();
