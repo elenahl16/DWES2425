@@ -1,9 +1,10 @@
 <?php
-require_once 'USuario.php';
-
+require_once 'Usuario.php';
+require_once 'Socio.php';
+require_once 'Libro.php';
 class Modelo{
 
-    private $conexion;
+    private $conexion=null;
 
     public function __construct(){
         
@@ -20,7 +21,7 @@ class Modelo{
             }
             
             
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
            echo $th ->getMessage();
         }
 
@@ -60,9 +61,9 @@ class Modelo{
             $params=array($us,$ps);
 
             //Ejecutar consulta
-            if($consulta->execute(($params))){
+            if($consulta->execute($params)){
 
-                //REcuoeramos el resultado y transformarlo en un objeto usuario
+                //Recuperamos el resultado y transformarlo en un objeto usuario
                 if($fila=$consulta->fetch()){
                     $resultado= new Usuario($fila['id'],$fila['tipo']);
                 }
@@ -77,6 +78,105 @@ class Modelo{
 
     }
 
+    function obtenerSocios(){
+
+        //Devuelve un array vacio si no hay socios
+        //Si hay socios devuelve un array con objetos socios
+        $resultado=array();
+
+        try {
+            $textoConsulta='SELECT * FROM socios order by nombre';
+            //Ejecutar consulta
+
+            $c=$this->conexion->query($textoConsulta);
+            if($c){
+                //accede al resultado de la consulta
+
+                while ($fila=$c->fetch()){
+                    $resultado[]=new Socio($fila['id'],$fila['nombre'],
+                $fila['fechaSancion'],$fila['email'],$fila['us']);
+                    
+                    
+                }
+            }
+            
+        } catch (Throwable $th) {
+            echo $th->getMessage();
+        }
+        return $resultado;
+    }
+
+    function obtenerLibros(){
+
+        
+        //Devuelve un array vacio si no hay socios
+        //Si hay socios devuelve un array con objetos socios
+        $resultado=array();
+
+        try {
+            $textoConsulta='SELECT * FROM libros order by titulo';
+            //Ejecutar consulta
+
+            $c=$this->conexion->query($textoConsulta);
+
+            if($c){
+                //accede al resultado de la consulta
+
+                while ($fila=$c->fetch()){
+                    $resultado[]=new Libro($fila['id'],$fila['titulo'],
+                    $fila['ejemplares'],$fila['autor']);    
+                }
+            }
+            
+        } catch (Throwable $th) {
+            echo $th->getMessage();
+        }
+        return $resultado;
+    }
+
+    public function comprobar($socio,$libro){
+
+        $resultado='ok';
+
+        try {
+            //tenemos que llamar a la funcion de la bd comprobar
+            $consulta=$this->conexion->prepare('SELECT comprobarSiPrestar(?,?)');
+            $params=array($socio,$libro);
+
+            if($consulta->execute($params)){
+                if($fila=$consulta->fetch()){
+                    $codigo=$fila[0];
+
+                    switch ($codigo) {
+                        case -1:
+                            $resultado='No hay ejemplares del libro o el libro no existe';
+                            break;
+
+                        case -2:
+                            $resultado='El socio esta sancionando o el socio no existe';
+                            break;
+                        
+                        case -3:
+                            $resultado='El socio tiene préstamos caducados';
+                            break;
+    
+                        case -4:
+                            $resultado='El socio tiene más de 2 libros prestados';
+                            break;
+                        
+                        default:
+                            
+                    }
+
+                }
+
+            }
+
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+        return $resultado;
+    }
 
     /**
      * Get the value of conexion

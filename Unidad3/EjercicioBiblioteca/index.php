@@ -1,5 +1,10 @@
 <?php
 require_once 'Modelo.php';
+session_start();
+if(isset($_SESSION['usuario'])){
+    //Redirigimos si ya estamos logueados
+    header('location:prestamos.php');
+}
 if(isset($_POST['entrar'])){
     $bd = new Modelo();
     if($bd->getConexion()==null){
@@ -12,8 +17,9 @@ if(isset($_POST['entrar'])){
         $us = $bd->loguear($_POST['usuario'],$_POST['ps']);
         if($us!=null){
             //Almacenamos en la sesión
+            $_SESSION['usuario'] = $us;
             //Redirigimos
-            $error='datos correctos';
+            header('location:prestamos.php');
         }
         else{
             $error='Error, datos incorrectos';
@@ -39,11 +45,12 @@ if(isset($_POST['entrar'])){
         <form action="" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Usuario</label>
-                <input type="text" name="usuario" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+                <input type="text" name="usuario" class="form-control" id="idUsuario" aria-describedby="emailHelp"/>
             </div>
+
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" name="ps" class="form-control" id="exampleInputPassword1">
+                <input type="password" name="ps" class="form-control" id="idPs">
             </div>
         
             <button type="submit" class="btn btn-primary" name="entrar">Entrar</button>
@@ -55,5 +62,4 @@ if(isset($_POST['entrar'])){
         ?>
     </div>
 </body>
-
 </html>
