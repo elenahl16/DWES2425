@@ -23,7 +23,15 @@
 
         if($resultado=='ok'){
             //si el resultado es igual a ok, hacemos el prestamo
-            $error='Se puede hacer el prestamo';
+           
+            $numero =$bd->crearPrestamo($_POST['socio'],$_POST['libro']);
+
+            if($numero > 0){
+                $mensaje='Préstamo nº '.$numero.'registrado';
+            }
+            else{
+                $error='Se ha producido un error al crear el prestamo';
+            }
 
         }else{
             //si no puede hacerlo nos va a mostrar el error porque
