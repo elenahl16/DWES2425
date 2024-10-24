@@ -15,11 +15,11 @@
     //creamos objeto de acceso a la bd
     $bd = new Modelo();
 
-    if (isset($_POST['pCrear'])) {
+    if (isset($_POST['pCrear']) and $_SESSION['usuario']->getTipo()=='A'){
         //Tenemos que crear un prestamo, usamos la funcion de la base de datos comprobarSiPrestar(pSocio int,pLibro int);
         //para ver si se puede hacer el prestamo
 
-        $resultado= $bd->comprobar($_POST['socio'],$_POST['libros']);
+        $resultado= $bd->comprobar($_POST['socio'],$_POST['libro']);
 
         if($resultado=='ok'){
             //si el resultado es igual a ok, hacemos el prestamo
