@@ -73,7 +73,7 @@ require_once 'Controlador.php';
         <div>
             <br />
             <!-- mostrar préstamos -->
-            <form action="" method="post">
+           <form action="" method="post">
                 <table class="table">
                     <thead>
                         <tr>
