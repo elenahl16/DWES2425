@@ -73,7 +73,7 @@ require_once 'Controlador.php';
         <div>
             <br />
             <!-- mostrar préstamos -->
-           <form action="" method="post">
+            <form action="" method="post">
                 <table class="table">
                     <thead>
                         <tr>
@@ -101,8 +101,7 @@ require_once 'Controlador.php';
                                 '</td>';
                             echo '<td>';
                                 echo ($p->getFechaRD() == null ?
-                                    '<button class="btn btn-outline-secondary" type="submit" name="pDevolver" value="' . 
-                                        $p->getId() . '">Devolver</button>'
+                                    '<button class="btn btn-outline-secondary" type="submit" name="pDevolver" value="' .$p->getId(). '">Devolver</button>'
                                     : '');
                             echo '</td>';
                             echo '</tr>';

@@ -3,252 +3,253 @@ require_once 'Usuario.php';
 require_once 'Socio.php';
 require_once 'Libro.php';
 require_once 'Prestamo.php';
-class Modelo{
+class Modelo
+{
 
-    private $conexion=null;
+    private $conexion = null;
 
-    public function __construct(){
-        
+    public function __construct()
+    {
+
         try {
 
             $config = $this->obtenerDatos();
 
-            if($config!=null){
+            if ($config != null) {
                 //Establecemos conexion con la bs
-                 $this->conexion = new PDO('mysql:host='.$config['urlBD'].
-                    ';port='.$config['puerto'].';dbname='.$config['nombreBD'],
-                    $config['usBD']
-                    ,$config['psUS']);
+                $this->conexion = new PDO(
+                    'mysql:host=' . $config['urlBD'] .
+                        ';port=' . $config['puerto'] . ';dbname=' . $config['nombreBD'],
+                    $config['usBD'],
+                    $config['psUS']
+                );
             }
-            
-            
         } catch (Throwable $th) {
-           echo $th ->getMessage();
+            echo $th->getMessage();
         }
-
     }
 
 
-    private function obtenerDatos(){
+    private function obtenerDatos()
+    {
 
-        $resultado=array();
+        $resultado = array();
 
         //si el fichero existe
-        if(file_exists('.config')){
-            $datosF=file('.config',FILE_IGNORE_NEW_LINES);
+        if (file_exists('.config')) {
+            $datosF = file('.config', FILE_IGNORE_NEW_LINES);
 
-            foreach($datosF as $linea){
-                $campo = explode('=',$linea);
+            foreach ($datosF as $linea) {
+                $campo = explode('=', $linea);
                 $resultado[$campo[0]] = $campo[1]; //estoy añadiendo
             }
-        }
-        else{
+        } else {
             return null;
         }
         return $resultado;
     }
 
-    public function loguear($us,$ps){
+    public function loguear($us, $ps)
+    {
 
         //devuelve null si los datos no son correctos y un objeto usuario si los datos son correcto
         //Ejecutamos la consulta selet * from usuarios wher id=nombreUS and ps=pUS cifrada
         $resultado = null;
         try {
             //preparar consulta
-            $consulta = $this-> conexion->prepare('SELECT * FROM usuarios
+            $consulta = $this->conexion->prepare('SELECT * FROM usuarios
                     where id=? and ps=sha2(?,512)');
 
             //Rellenar parametros
-            $params=array($us,$ps);
+            $params = array($us, $ps);
 
             //Ejecutar consulta
-            if($consulta->execute($params)){
+            if ($consulta->execute($params)) {
 
                 //Recuperamos el resultado y transformarlo en un objeto usuario
-                if($fila=$consulta->fetch()){
-                    $resultado= new Usuario($fila['id'],$fila['tipo']);
+                if ($fila = $consulta->fetch()) {
+                    $resultado = new Usuario($fila['id'], $fila['tipo']);
                 }
-
             }
-
         } catch (\Throwable $th) {
-            echo $th ->getMessage();
+            echo $th->getMessage();
         }
 
         return $resultado;
-
     }
 
-    function obtenerSocios(){
+    function obtenerSocios()
+    {
 
         //Devuelve un array vacio si no hay socios
         //Si hay socios devuelve un array con objetos socios
-        $resultado=array();
+        $resultado = array();
 
         try {
-            $textoConsulta='SELECT * FROM socios order by nombre';
+            $textoConsulta = 'SELECT * FROM socios order by nombre';
             //Ejecutar consulta
 
-            $c=$this->conexion->query($textoConsulta);
-            if($c){
+            $c = $this->conexion->query($textoConsulta);
+            if ($c) {
                 //accede al resultado de la consulta
 
-                while ($fila=$c->fetch()){
-                    $resultado[]=new Socio($fila['id'],$fila['nombre'],
-                $fila['fechaSancion'],$fila['email'],$fila['us']);
-                    
-                    
+                while ($fila = $c->fetch()) {
+                    $resultado[] = new Socio(
+                        $fila['id'],
+                        $fila['nombre'],
+                        $fila['fechaSancion'],
+                        $fila['email'],
+                        $fila['us']
+                    );
                 }
             }
-            
         } catch (Throwable $th) {
             echo $th->getMessage();
         }
         return $resultado;
     }
 
-    function obtenerLibros(){
+    function obtenerLibros()
+    {
 
-        
+
         //Devuelve un array vacio si no hay socios
         //Si hay socios devuelve un array con objetos socios
-        $resultado=array();
+        $resultado = array();
 
         try {
-            $textoConsulta='SELECT * FROM libros order by titulo';
+            $textoConsulta = 'SELECT * FROM libros order by titulo';
             //Ejecutar consulta
 
-            $c=$this->conexion->query($textoConsulta);
+            $c = $this->conexion->query($textoConsulta);
 
-            if($c){
+            if ($c) {
                 //accede al resultado de la consulta
 
-                while ($fila=$c->fetch()){
-                    $resultado[]=new Libro($fila['id'],$fila['titulo'],
-                    $fila['ejemplares'],$fila['autor']);    
+                while ($fila = $c->fetch()) {
+                    $resultado[] = new Libro(
+                        $fila['id'],
+                        $fila['titulo'],
+                        $fila['ejemplares'],
+                        $fila['autor']
+                    );
                 }
             }
-            
         } catch (Throwable $th) {
             echo $th->getMessage();
         }
         return $resultado;
     }
 
-    public function comprobar($socio,$libro){
+    public function comprobar($socio, $libro)
+    {
 
-        $resultado='ok';
+        $resultado = 'ok';
 
         try {
             //tenemos que llamar a la funcion de la bd comprobar
-            $consulta=$this->conexion->prepare('SELECT comprobarSiPrestar(?,?)');
-            $params=array($socio,$libro);
+            $consulta = $this->conexion->prepare('SELECT comprobarSiPrestar(?,?)');
+            $params = array($socio, $libro);
 
-            if($consulta->execute($params)){
-                if($fila=$consulta->fetch()){
-                    $codigo=$fila[0];
+            if ($consulta->execute($params)) {
+                if ($fila = $consulta->fetch()) {
+                    $codigo = $fila[0];
 
                     switch ($codigo) {
                         case -1:
-                            $resultado='No hay ejemplares del libro o el libro no existe';
+                            $resultado = 'No hay ejemplares del libro o el libro no existe';
                             break;
 
                         case -2:
-                            $resultado='El socio esta sancionando o el socio no existe';
+                            $resultado = 'El socio esta sancionando o el socio no existe';
                             break;
-                        
+
                         case -3:
-                            $resultado='El socio tiene préstamos caducados';
+                            $resultado = 'El socio tiene préstamos caducados';
                             break;
-    
+
                         case -4:
-                            $resultado='El socio tiene más de 2 libros prestados';
+                            $resultado = 'El socio tiene más de 2 libros prestados';
                             break;
-                        
+
                         default:
-                            
                     }
-
                 }
-
             }
-
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
         return $resultado;
     }
 
-    function crearPrestamo($idSocio,$idLibro){
+    function crearPrestamo($idSocio, $idLibro)
+    {
 
-        $resultado=0;
+        $resultado = 0;
 
         try {
             //iniciamos la transacion ya que vamos hacer un insert y un update
             $this->conexion->beginTransaction();
-            
+
             //Hacemos aqui el insert
-            $consulta= $this->conexion->prepare('INSERT into prestamos value
+            $consulta = $this->conexion->prepare('INSERT into prestamos value
              (null,?,?,curdate(), adddate(curdate(), INTERVAL 30 DAY),null)');
 
-            $params=array($idSocio,$idLibro);
+            $params = array($idSocio, $idLibro);
 
-            if($consulta->execute($params)){
+            if ($consulta->execute($params)) {
                 //comprobamos si se ha insertado una fila, por eso utilizamos un rowCount
 
-                if ($consulta->rowCount()==1) {
+                if ($consulta->rowCount() == 1) {
                     //obtenemos el id del prestamo creado
                     $id = $this->conexion->lastInsertId();
 
                     //update
-                    $consulta= $this->conexion->prepare('UPDATE into libros set ejemplares=ejemplares-1
+                    $consulta = $this->conexion->prepare('UPDATE into libros set ejemplares=ejemplares-1
                     where id = ?');
-                    $params=array($idLibro);
+                    $params = array($idLibro);
 
-                    if ($consulta->execute($params) and $consulta->rowCount()==1) {
+                    if ($consulta->execute($params) and $consulta->rowCount() == 1) {
                         $this->conexion->commit();
-                        $resultado=$id;
-                    }
-                    else {
+                        $resultado = $id;
+                    } else {
                         $this->conexion->rollBack(); //deshacemos el insert
                     }
-       
-
                 }
-
             }
-
         } catch (PDOException $se) {
             $this->conexion->rollBack();
 
             echo $se->getMessage();
-
-        }  catch (Throwable $th) {
+        } catch (Throwable $th) {
             echo $th->getMessage();
         }
-
     }
 
-    function obtenerPrestamos(){
+    function obtenerPrestamos()
+    {
 
-        $resultado=array();
+        $resultado = array();
 
         try {
-            $consulta=$this->conexion->query('SELECT * from prestamos as p
+            $consulta = $this->conexion->query('SELECT * from prestamos as p
             inner join socios as s on p.socio=s.id
             inner join libros as l on p.libro=l.id
             order by p.fechaD, p.id desc');
 
-            if($consulta){
-                while($fila=$consulta->fetch()){
-                
-                $p=new Prestamo($fila [0],
-                        new Socio($fila['socio'],$fila['nombre'],$fila['fechaSancion'],$fila['email'],$fila['us'])
-                       ,new Libro($fila['id'],$fila['titulo'],$fila['ejemplares'],$fila['autor']),
-                $fila['fechaP'],$fila['fechaD'],$fila['fechaRD']);
-                $resultado[]=$p;
-                }
+            if ($consulta) {
+                while ($fila = $consulta->fetch()) {
 
+                    $p = new Prestamo(
+                        $fila[0],
+                        new Socio($fila['socio'], $fila['nombre'], $fila['fechaSancion'], $fila['email'], $fila['us']),
+                        new Libro($fila['id'], $fila['titulo'], $fila['ejemplares'], $fila['autor']),
+                        $fila['fechaP'],
+                        $fila['fechaD'],
+                        $fila['fechaRD']
+                    );
+                    $resultado[] = $p;
+                }
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();
@@ -256,9 +257,92 @@ class Modelo{
         return $resultado;
     }
 
+    function obtenerPrestamo($id)
+    {
+
+        $resultado = null;
+        try {
+            $consulta = $this->conexion->prepare('SELECT * from prestamos as p 
+                                                inner join socio as s on p.socio=s.id
+                                                inner join libro as l on p.libro=l.id
+                                                where p.id = ?');
+
+            $params = array($id);
+
+            //ejecutamos la consulta
+            if ($consulta->execute($params)) {
+
+                if ($fila = $consulta->fetch()) {
+                    $resultado = new Prestamo(
+                        $fila[0],
+                        new Socio('socio', $fila['socio'], $fila['fechaSancion'], $fila['email'], $fila['us']),
+                        new Libro('libro', $fila['titulo'], $fila['ejemplares'], $fila['autor']),
+                        $fila['fechaP'],
+                        $fila['fechaD'],
+                        $fila['fechaRD']
+                    );
+                }
+            }
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+
+        return $resultado;
+    }
+
+    function devolverPrestamo($p, $sancionar)
+    {
+
+        $resultado = false;
+
+        try {
+            //Iniciamos la transaccion
+            $this->conexion->beginTransaction();
+            $consulta = $this->conexion->prepare('UPDATE prestamos set fechaRD=curdate()
+                                                    where id=?;');
+
+            $params = array($p->getId());
+
+            //ejecutamos la consulta
+            if ($consulta->execute($params) and $consulta->rowCount() == 1) {
+
+                //actualiza los ejemplares de libro
+                $consulta = $this->conexion->prepare('UPDATE libros set ejemplares=ejemplares-1
+                                                    where id=?;');
+
+                $params = array($p->getLibro()->getId());
+
+                if ($consulta->execute($params) and $consulta->rowCount() == 1) {
+                    //Sancionar socio si es necesario
+
+                    if ($sancionar) {
+                        $consulta = $this->conexion->prepare('UPDATE socios set fechaSancion=addate(curdate(),interval 1 month))
+                                                    where id=?;');
+
+                        $params = array($p->getSocio()->getId());
+
+                        if ($consulta->execute($params) and $consulta->rowCount() == 1) {
+                        } else {
+                            $this->conexion->rollBack();
+                        }
+                    } else {
+                        $this->conexion->commit();
+                        $resultado = true;
+                    }
+                } else {
+                    $this->conexion->rollBack();
+                }
+            }
+        } catch (PDOException $th) {
+
+            $this->conexion->rollBack();
+            echo $th->getMessage();
+        }
+    }
+
     /**
      * Get the value of conexion
-     */ 
+     */
     public function getConexion()
     {
         return $this->conexion;
@@ -268,7 +352,7 @@ class Modelo{
      * Set the value of conexion
      *
      * @return  self
-     */ 
+     */
     public function setConexion($conexion)
     {
         $this->conexion = $conexion;
@@ -276,5 +360,3 @@ class Modelo{
         return $this;
     }
 }
-
-?>
