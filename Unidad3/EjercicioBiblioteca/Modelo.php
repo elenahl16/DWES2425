@@ -3,8 +3,7 @@ require_once 'Usuario.php';
 require_once 'Socio.php';
 require_once 'Libro.php';
 require_once 'Prestamo.php';
-class Modelo
-{
+class Modelo{
 
     private $conexion = null;
 
@@ -21,8 +20,7 @@ class Modelo
                     'mysql:host=' . $config['urlBD'] .
                         ';port=' . $config['puerto'] . ';dbname=' . $config['nombreBD'],
                     $config['usBD'],
-                    $config['psUS']
-                );
+                    $config['psUS']);
             }
         } catch (Throwable $th) {
             echo $th->getMessage();
@@ -30,8 +28,7 @@ class Modelo
     }
 
 
-    private function obtenerDatos()
-    {
+    private function obtenerDatos(){
 
         $resultado = array();
 
@@ -49,8 +46,7 @@ class Modelo
         return $resultado;
     }
 
-    public function loguear($us, $ps)
-    {
+    public function loguear($us, $ps){
 
         //devuelve null si los datos no son correctos y un objeto usuario si los datos son correcto
         //Ejecutamos la consulta selet * from usuarios wher id=nombreUS and ps=pUS cifrada

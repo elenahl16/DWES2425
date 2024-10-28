@@ -30,8 +30,67 @@ require_once 'Controlador.php';
         </div>
 
         <div>
+            <?php
+                if($_SESSION['usuario']->getTipo()=='A'){
 
-        
-        </div>
+            ?>
+                 <form action="" method="post" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="titulo" class="form-label">Titulo</label>
+                        <input type="text" class="form-control" name="titulo" id="titulo"> 
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="autor" class="form-label">Autor</label>
+                        <input type="text" class="form-control" name="autor" id="autor"> 
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="autor" class="form-label">Ejemplares</label>
+                        <input type="text" class="form-control" name="ejemplares" id="ejemplares"> 
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary" type="submit" id="lCrear" name="lCrear">Crear Libro</button>
+                    </div>
+                 </form>
+                 <?php
+               }
+            ?>
+        </div>      
+    </div>
+
+    <div>
+        <table class="table">
+            <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titulo</th>
+                        <th>Ejemplares</th>
+                        <th>Autores</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tr>
+            </thead>
+
+            <tbody>
+            <?php
+             $libros=$bd->obtenerLibros();
+
+             foreach($libros as $l){
+                echo '<tr>';
+                echo '<td>' . $l->getId().'</td>';
+                echo '<td>' . $l->getTitulo().'</td>';
+                echo '<td>' . $l->getEjemplares().'</td>';
+                echo '<td>' . $l->getAutor().'</td>';
+                echo '<td>';
+                echo '<button class="btn btn-outline-secondary" type="submit" name="Modificar" value="' .$l->getId(). '">Modificar</button>';
+                echo '<button class="btn btn-outline-secondary" type="submit" name="Borrar" value="' .$l->getId(). '">Borrar</button>';
+                echo '</td>';
+                echo '</tr>';
+             }
+            ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

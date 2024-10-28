@@ -57,7 +57,7 @@ if(isset($_POST['entrar'])){
         </form>
         <?php
         if(isset($error)){
-            echo '<br/><div class="text-danger">'.$error.'</div>';
+            echo '<br/><div class="alert alert-danger" role="alert">'.$error.'</div>';
         }
         ?>
     </div>
