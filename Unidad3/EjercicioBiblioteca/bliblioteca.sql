@@ -102,7 +102,7 @@ begin
     return resultado;
 end//
 
-delimiter ; 
+delimiter ;
 
 select comprobarSiPrestar(5,1);  -- Chequea ejemplares
 select comprobarSiPrestar(5,100);  -- Chequea libro existe

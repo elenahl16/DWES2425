@@ -5,11 +5,11 @@ session_start();
 
 //si no hay sesion iniciada, redirigimos a login
 if (!isset($_SESSION['usuario'])) {
-    header('location:index.php');
+    header('location:login.php');
 }
 if (isset($_POST['cerrar'])) {
     session_destroy();
-    header('location:index.php');
+    header('location:login.php');
 }
 //creamos objeto de acceso a la bd
 $bd = new Modelo();
@@ -35,10 +35,10 @@ if (isset($_POST['pCrear']) and $_SESSION['usuario']->getTipo() == 'A') {
         $error = $resultado;
     }
 }
-if (isset($_POST['pDevolver']) and ($_SESSION['usuario']->getTipo() == 'A')) {
+if (isset($_POST['pDevolver']) and $_SESSION['usuario']->getTipo() == 'A') {
 
     //Obtener el préstamos
-    $p = $bd->obtenerPrestamo($_POST['pDevolver']);
+    $p=$bd->obtenerPrestamo($_POST['pDevolver']);
 
     if ($p!=null) {
         //chequa si hay que sancionar al socio
@@ -62,4 +62,30 @@ if (isset($_POST['pDevolver']) and ($_SESSION['usuario']->getTipo() == 'A')) {
         $error = 'Préstamo no existe';
     }
 }
+
+    if(isset($_POST['sCrear']) and $_SESSION['usuario']->getTipo()=='A'){
+        if(isset($_POST['dni']) or !isset($_POST['tipo'])){
+            $error='Error, rellena dni y tipo';
+
+        }
+        else{
+            //comprobamos si ya hay un usuario con ese dni
+            $us=$bd->obtenerUsuarioDni($_POST['dni']);
+
+            if($us==null){
+                //puedo crear el nuevo usuario
+
+                if($_POST['tipo']=='A'){
+
+
+                }elseif($_POST['tipo']=='S'){
+    
+                }
+
+            }else{
+                $error='Error, ya existe un usuario con ese DNI';
+            }
+        }
+
+    }
 ?>
