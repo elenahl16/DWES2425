@@ -15,13 +15,13 @@
 
         <div class="col-md-3">
             <label for="">Producto</label>
-            <input type="text" class="form-control" id="producto" placeholder="Introduce un Producto">
+            <input type="text" class="form-control" id="producto" name="producto" placeholder="Introduce un Producto">
         </div>
 
         </br>
         <div class="col-md-3">
             <label for="">Tipo de Productos</label>
-            <select class="custom-select" id="tipo">
+            <select class="custom-select" id="tipoProd" name="tipoProd">
                 <option>Ocio</option>
                 <option>Alimentación</option>
                 <option>Textil</option>
@@ -32,14 +32,14 @@
 
         <div class="col-md-3">
             <label for="">Fecha Compra</label>
-            <input type="date" class="form-control" id="fechaCompra" value="<?php echo date('Y-m-d')?>">
+            <input type="date" class="form-control" id="fechaCompra" name="fechaCompra" value="<?php echo date('Y-m-d')?>">
         </div>
 
         </br>
 
         <div class="col-md-3">
             <label for="">Presupuesto</label>
-            <input type="text" class="form-control" id="producto" placeholder="Introduce el presupuesto">
+            <input type="text" class="form-control" id="presupuesto" placeholder="Introduce el presupuesto">
         </div>
 
         </br>
@@ -48,6 +48,28 @@
             <button type="button" class="btn btn-success" name="crear">Crear</button>
         </div>
     </form>
+    <?php
+    //si el boton ha sido creado
+    if(isset($_POST['crear'])){
+
+        //Si estos campos estan vacios, nos mostrara un mensaje de error
+        if(empty($_POST['producto']) || empty($_POST['tipoProd']) || empty($_POST['fechaCompra']) || empty($_POST['presupuesto'])){
+
+            echo '<h3 style="color:red;">Error, no puede haber ni un campo vacio</h3>';
+        }
+        else{
+            //si la fecha de compra es posterior o igual
+            if(isset($_POST['fechaCompra'])){
+
+            }
+            
+        }
+
+
+
+    }
+
+    ?>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
