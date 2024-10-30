@@ -26,7 +26,7 @@ if (isset($_POST['pCrear']) and $_SESSION['usuario']->getTipo() == 'A') {
         $numero = $bd->crearPrestamo($_POST['socio'], $_POST['libro']);
 
         if ($numero > 0) {
-            $mensaje ='Préstamo nº '. $numero . 'registrado';
+            $mensaje = 'Préstamo nº ' . $numero . 'registrado';
         } else {
             $error = 'Se ha producido un error al crear el prestamo';
         }
@@ -38,20 +38,20 @@ if (isset($_POST['pCrear']) and $_SESSION['usuario']->getTipo() == 'A') {
 if (isset($_POST['pDevolver']) and $_SESSION['usuario']->getTipo() == 'A') {
 
     //Obtener el préstamos
-    $p=$bd->obtenerPrestamo($_POST['pDevolver']);
+    $p = $bd->obtenerPrestamo($_POST['pDevolver']);
 
-    if ($p!=null) {
+    if ($p != null) {
         //chequa si hay que sancionar al socio
 
-        $sancion=false;
-        if(strtotime($p->getFechaD())<strtotime(date('Y-m-d'))) {
+        $sancion = false;
+        if (strtotime($p->getFechaD()) < strtotime(date('Y-m-d'))) {
             $sancion = true;
         }
 
-        if($bd->devolverPrestamo($p, $sancion)) {
-            $mensaje ='Prestámo devuelto';
+        if ($bd->devolverPrestamo($p, $sancion)) {
+            $mensaje = 'Prestámo devuelto';
 
-            if($sancion) {
+            if ($sancion) {
                 //lo que hacemos con el .=
                 $mensaje .= 'Se ha sancionado al socio';
             }
@@ -63,29 +63,46 @@ if (isset($_POST['pDevolver']) and $_SESSION['usuario']->getTipo() == 'A') {
     }
 }
 
-    if(isset($_POST['sCrear']) and $_SESSION['usuario']->getTipo()=='A'){
-        if(isset($_POST['dni']) or !isset($_POST['tipo'])){
-            $error='Error, rellena dni y tipo';
+if (isset($_POST['sCrear']) and $_SESSION['usuario']->getTipo() == 'A') {
+    if (isset($_POST['dni']) or !isset($_POST['tipo'])) {
+        $error = 'Error, rellena dni y tipo';
+    } else {
+        //comprobamos si ya hay un usuario con ese dni
+        $us = $bd->obtenerUsuarioDni($_POST['dni']);
 
-        }
-        else{
-            //comprobamos si ya hay un usuario con ese dni
-            $us=$bd->obtenerUsuarioDni($_POST['dni']);
+        if ($us == null) {
+            //puedo crear el nuevo usuario
 
-            if($us==null){
-                //puedo crear el nuevo usuario
-
-                if($_POST['tipo']=='A'){
-
-
-                }elseif($_POST['tipo']=='S'){
-    
-                }
-
-            }else{
-                $error='Error, ya existe un usuario con ese DNI';
+            if ($_POST['tipo'] == 'A') {
+            } elseif ($_POST['tipo'] == 'S') {
+                $_SESSION['crearSocio'] = true;
             }
+        } else {
+            $error = 'Error, ya existe un usuario con ese DNI';
         }
+    }
+}
+
+if (isset($_POST['sCrear']) and $_SESSION['usuario']->getTipo() == 'A') {
+    //Crear Socio
+    //Desactivamos los datos del socio en el formulario
+    unset($_SESSION['socio']);
+}
+    elseif(isset($_POST['dni']) and isset($_POST['tipo']) and $_SESSION['usuario']->getTipo() == 'A'){
+    //comprobar si ya hay un usuario con ese dni
+    $us=$bd->obtenerUsuarioDni($_POST('dni'));
+
+    if($us==null){
+        //puedo crear el nuevo usuario
+            if ($_POST['tipo']=='A') {
+                unset($_SESSION['CrearSocio']);
+            }
+            elseif($_POST['tipo']=='S'){
+                $_SESSION['crearSocio']=true;
+
+            }
 
     }
-?>
+
+
+}

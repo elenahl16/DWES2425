@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Title</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,9 +9,10 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body>
-  <p class="display-4">Lista de la Compra</p>
+</head>
+
+<body>
+    <p class="display-4">Lista de la Compra</p>
     <form action="" method="post">
 
         <div class="col-md-3">
@@ -32,7 +34,7 @@
 
         <div class="col-md-3">
             <label for="">Fecha Compra</label>
-            <input type="date" class="form-control" id="fechaCompra" name="fechaCompra" value="<?php echo date('Y-m-d')?>">
+            <input type="date" class="form-control" id="fechaCompra" name="fechaCompra" value="<?php echo date('Y-m-d') ?>">
         </div>
 
         </br>
@@ -50,39 +52,35 @@
     </form>
     <?php
     //si el boton ha sido creado
-    if(isset($_POST['crear'])){
+    if (isset($_POST['crear'])) {
 
         //Si estos campos estan vacios, nos mostrara un mensaje de error
-        if(empty($_POST['producto']) || empty($_POST['tipoProd']) || empty($_POST['fechaCompra']) || empty($_POST['presupuesto'])){
-
+        if (empty($_POST['producto']) || empty($_POST['tipoProd']) || empty($_POST['fechaCompra']) || empty($_POST['presupuesto'])) {
             echo '<h3 style="color:red;">Error, no puede haber ni un campo vacio</h3>';
-        }
-        else{
-            //si el presupuesto es mayor que 0
-            if(isset($_POST['presupuesto']) && $_POST['presupuesto'] > 0){  
-                
-            }
-            else{
+
+        } else {
+            //si el presupuesto es menor que 0
+            if (isset($_POST['presupuesto']) && $_POST['presupuesto'] <= 0) {
                 echo '<h3 style="color:red;">Error, no puede ser menor que 0</h3>';
             }
-        
+
+            
+            //si el tipo de producto es igual a ocio, avisamos a los padres
+            if ($_POST['tipoProd'] == 'Ocio') {
+                echo 'Este producto es de ocio, avisar a los padres';
+            }
+
+            //añadimos los datos a una variable para poder mostrarlos si todo esta ok
+            $producto = $_POST['producto'];
+            $tipoProducto = $_POST['tipoProd'];
+            $fechaCompra = $_POST['fechaCompra'];
+            $presupuesto = $_POST['presupuesto'];
+
+            //Mostramos todos los datos guardados
+
+
         }
-        //si el tipo de producto es igual a ocio, avisamos a los padres
-        if($_POST['tipoProd'] =='Ocio'){
-            echo 'Este producto es de ocio, avisar a los padres';
-        }
-
-
-        //añadimos los datos a una variable para poder mostrarlos si todo esta ok
-        $producto=$_POST['producto'];
-        $tipoProducto=$_POST['tipoProd'];
-        $fechaCompra=$_POST['fechaCompra'];
-        $presupuesto=$_POST['presupuesto'];
-
-        //Mostramos todos los datos guardados
-        
     }
-    
 
     ?>
     <!-- Optional JavaScript -->
@@ -90,5 +88,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+</body>
+
 </html>
