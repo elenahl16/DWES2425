@@ -39,13 +39,13 @@
 
         <div class="col-md-3">
             <label for="">Presupuesto</label>
-            <input type="text" class="form-control" id="presupuesto" placeholder="Introduce el presupuesto">
+            <input type="text" class="form-control" id="presupuesto" name="presupuesto" placeholder="Introduce el presupuesto">
         </div>
 
         </br>
 
         <div class="col-md-3">
-            <button type="button" class="btn btn-success" name="crear">Crear</button>
+            <button type="submit" class="btn btn-success" name="crear">Crear</button>
         </div>
     </form>
     <?php
@@ -58,16 +58,31 @@
             echo '<h3 style="color:red;">Error, no puede haber ni un campo vacio</h3>';
         }
         else{
-            //si la fecha de compra es posterior o igual
-            if(isset($_POST['fechaCompra'])){
-
+            //si el presupuesto es mayor que 0
+            if(isset($_POST['presupuesto']) && $_POST['presupuesto'] > 0){  
+                
             }
-            
+            else{
+                echo '<h3 style="color:red;">Error, no puede ser menor que 0</h3>';
+            }
+        
+        }
+        //si el tipo de producto es igual a ocio, avisamos a los padres
+        if($_POST['tipoProd'] =='Ocio'){
+            echo 'Este producto es de ocio, avisar a los padres';
         }
 
 
+        //añadimos los datos a una variable para poder mostrarlos si todo esta ok
+        $producto=$_POST['producto'];
+        $tipoProducto=$_POST['tipoProd'];
+        $fechaCompra=$_POST['fechaCompra'];
+        $presupuesto=$_POST['presupuesto'];
 
+        //Mostramos todos los datos guardados
+        
     }
+    
 
     ?>
     <!-- Optional JavaScript -->
