@@ -348,33 +348,41 @@ class Modelo{
         return $resultado;
     }
 
-    function crearUsuario($us,$s){
-
+    public function crearUsuario($u,$s){
         $resultado=false;
-
         try {
             $this->conexion->beginTransaction();
-            //Crear Usuario
-            $consulta=$this->conexion->prepare('INSERT INTO usuarios values (?,sha2(?,512),?)');
-            $params=array($us->getId(),$us->getId(),$us->getTipo());
-
+            //Crear usuario
+            $consulta=$this->conexion->prepare('INSERT into usuarios values (?,sha2(?,512),?)');
+            $params=array($u->getId(),$u->getId(),$u->getTipo()); 
             if($consulta->execute($params) and $consulta->rowCount()==1){
                 //Comprobar si crear socio
                 if($s!=null){
                     //Crear Socio
-                    $consulta=$this->conexion->prepare('INSERT INTO socios values (null,?,null,?,?)');
-                    $params=array($s->getNombre(),$s->getEmail(),$s->getTipo());
-                }else{
-                    $this->conexion->commit();
-                    $resultado=true;
+                    $consulta=$this->conexion->prepare('INSERT into socios values (null,?,null,?,?)');
+                    $params=array($s->getNombre(),$s->getEmail(),$s->getUs());
+                    if($consulta->execute($params) and $consulta->rowCount()==1){
+                        $this->conexion->commit();
+                        $resultado=true;
+                    }
+                    else{
+                        $this->conexion->rollBack();
+                    }
                 }
-
+                else{
+                    $this->conexion->commit();
+                    $resultado=true; 
+                }
             }
-
-        } catch (\Throwable $th) {
+        } 
+        catch (\PDOException $e) {
+            $this->conexion->rollBack();
+            echo $e->getMessage();
+        }
+        catch (\Throwable $th) {
             echo $th->getMessage();
         }
-
+        return $resultado;
     }
 
     /**

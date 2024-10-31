@@ -1,14 +1,13 @@
 <?php
 class Usuario{
+    private $id, $tipo;
 
-    private $id,$tipo;
-
-
-    function __construct($id,$tipo){
-
+    public function __construct($id,$tipo)
+    {
         $this->id=$id;
         $this->tipo=$tipo;
     }
+
     
 
     /**

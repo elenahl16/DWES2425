@@ -1,39 +1,14 @@
 <?php
 class Prestamo{
+    private $id, $socio, $libro, $fechaP, $fechaD, $fechaRD;
 
-    private $id,$socio,$libro,$fechaP,$fechaD,$fechaRD;
-
-
-    function __construct($id,$socio,$libro,$fechaP,$fechaD,$fechaRD){
-
-        $this->id=$id;
-        $this->socio=$socio;
-        $this->libro=$libro;
+    function __construct($id, $socio, $libro, $fechaP, $fechaD, $fechaRD){
+        $this->id=$id; 
+        $this->socio=$socio; 
+        $this->libro=$libro; 
         $this->fechaP=$fechaP;
-        $this->fechaD=$fechaD;
+        $this->fechaD=$fechaD; 
         $this->fechaRD=$fechaRD;
-
-      
-    }
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
@@ -52,6 +27,26 @@ class Prestamo{
     public function setSocio($socio)
     {
         $this->socio = $socio;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
 
         return $this;
     }
