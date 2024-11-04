@@ -63,7 +63,6 @@
             if (isset($_POST['presupuesto']) && $_POST['presupuesto'] <= 0) {
                 echo '<h3 style="color:red;">Error, no puede ser menor que 0</h3>';
             }
-
             
             //si el tipo de producto es igual a ocio, avisamos a los padres
             if ($_POST['tipoProd'] == 'Ocio') {
@@ -78,6 +77,11 @@
 
             //Mostramos todos los datos guardados
 
+            echo "<h4>Datos ingresados:</h4>";
+            echo "<p>Producto: $producto</p>";
+            echo "<p>Tipo: $tipoProd</p>";
+            echo "<p>Fecha de Compra: " . date("d/m/Y", strtotime($fechaCompra)) . "</p>";
+            echo "<p>Presupuesto: $presupuesto</p>";
 
         }
     }
