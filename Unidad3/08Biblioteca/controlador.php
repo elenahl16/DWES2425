@@ -1,24 +1,44 @@
 <?php
 require_once 'Modelo.php';
 
-function generarInput($tipo,$nombre,$valor,$boton,$valorBoton){
-    if(isset($_POST[$boton]) && $_POST[$boton]==$valorBoton){
-        return '<'.$tipo.' name="'.$nombre.'" value="'.$valor.'"/>';
-    }
-    else{
+function generarInput($tipo, $nombre, $valor, $boton, $valorBoton)
+{
+    if (isset($_POST[$boton]) && $_POST[$boton] == $valorBoton) {
+        return '<' . $tipo . ' name="' . $nombre . '" value="' . $valor . '"/>';
+    } else {
         return $valor;
     }
 }
-function generarBotones($nombreB1, $nombreB2, $textoB1, $textoB2, $boton, $valorBoton){
-    if(isset($_POST[$boton]) && $_POST[$boton]==$valorBoton){
-        return '<button class="btn btn-outline-secondary" type="submit" name="'.
-        $nombreB2.'" value="'.$valorBoton.'">'.$textoB2.'</button>'; 
+function generarBotones($nombreB1, $nombreB2, $textoB1, $textoB2, $boton, $valorBoton)
+{
+    if (isset($_POST[$boton]) && $_POST[$boton] == $valorBoton) {
+        return '<button class="btn btn-outline-secondary" type="submit" name="' .
+            $nombreB2 . '" value="' . $valorBoton . '">' . $textoB2 . '</button>';
+    } else {
+        return '<button class="btn btn-outline-secondary" type="submit" name="' .
+            $nombreB1 . '" value="' . $valorBoton . '">' . $textoB1 . '</button>';
     }
-    else{
-        return '<button class="btn btn-outline-secondary" type="submit" name="'.
-        $nombreB1.'" value="'.$valorBoton.'">'.$textoB1.'</button>';             
-    }
+}
 
+function generarModal($titulo){
+
+    return '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">'.$titulo.'</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>';
     
 }
 
@@ -166,37 +186,69 @@ if (isset($_POST['sCrearSocio']) and $_SESSION['usuario']->getTipo() == 'A') {
 }
 if (isset($_POST['sGSocio']) and $_SESSION['usuario']->getTipo() == 'A') {
     //Obtener los datos antiguos del usuario
-    $u=$bd->obtenerUsuarioDni($_POST['sGSocio']);
-    if(empty($_POST['dni'])){
+    $u = $bd->obtenerUsuarioDni($_POST['sGSocio']);
+    if (empty($_POST['dni'])) {
         $error = 'Error, el id no puede estar vacío';
     }
     //comprobar si ha cambiado el dni
-    elseif($_POST['dni']!=$u->getId()){
+    elseif ($_POST['dni'] != $u->getId()) {
         //Se ha modificado el dni
         //Hay que compobar que no hay otro usuario con 
         //el nuevo dni
         $uNuevo = $bd->obtenerUsuarioDni($_POST['dni']);
-        if($uNuevo!=null){
+        if ($uNuevo != null) {
             $error = 'Error, ya hay otro usuario con ese dni';
         }
     }
-    if(!isset($error)){
+    if (!isset($error)) {
         //Modificamos datos
         $u->setId($_POST['dni']);
-        
+
         //Recuperamos el socio
-        $s=$bd->obtenerSocioDni($_POST['dni']);
-        $s->setNombre($_POST['nombre']);
-        $s->setFechaSancion($_POST['fSancion']);
-        $s->setEmail($_POST['email']);
+        $s = $bd->obtenerSocioDni($_POST['sGSocio']);
 
-        if($bd->modificarUSySocio($u,$s,$_POST['dni'])){
-            $mensaje='Usuario modificado';
+        if ($s != null) {
+
+            $s->setNombre($_POST['nombre']);
+            $s->setFechaSancion(isset($_POST['fSancion']) ? $_POST['fSancion']:null);
+            $s->setEmail($_POST['email']);
         }
 
+        if ($bd->modificarUSySocio($u, $s, $_POST['sGSocio'])) {
+            $mensaje = 'Usuario modificado';
+
+        } else {
+            $error = 'Error al modificar el usuario';
+        }
+    }
+}
+
+if(isset($_POST['sBSocio']) and $_SESSION['usuario']->getTipo() =='A'){
+    $u=$bd->obtenerUsuarioDni($_POST['usuario']);
+
+    if($u!=null){
+
+        if($u->getId()==$_SESSION['usuario']->getId()){
+            $error='Error, no puedes borrar el usuario conectado';
+
+        }
         else{
-            $error='Error al modificar el usuario';
+            //comprobamos si el usuario tiene prestamos
+            $prestamos=$bd->obtenerPrestamosSocio($us);
+
+            if(sizeof($prestamos)>0){
+                //aviso
+
+            }
+            else{
+                //borrar
+
+                if($bd->borrarUsuario($u,false)){
+                    $mensaje='Usuario borrado';
+                }
+            }
         }
+
     }
 
 }

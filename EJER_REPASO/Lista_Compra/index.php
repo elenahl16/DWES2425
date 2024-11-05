@@ -54,35 +54,58 @@
     //si el boton ha sido creado
     if (isset($_POST['crear'])) {
 
+        $error=false;
+
         //Si estos campos estan vacios, nos mostrara un mensaje de error
         if (empty($_POST['producto']) || empty($_POST['tipoProd']) || empty($_POST['fechaCompra']) || empty($_POST['presupuesto'])) {
             echo '<h3 style="color:red;">Error, no puede haber ni un campo vacio</h3>';
 
-        } else {
+            $error=true;
+
+        }
+        
+        else {
+            // echo $_POST['fechaCompra']; //con esto lo que hacemos es mostrar lo que tiene la variable fecha compra
+
+            if (isset($_POST['fechaCompra']) && $_POST['fechaCompra'] < date('Y-m-d')) {
+                //c
+                echo 'No se puede comprar con fecha anterior al dia de hoy';
+                $error=true;
+            }
+
+
             //si el presupuesto es menor que 0
             if (isset($_POST['presupuesto']) && $_POST['presupuesto'] <= 0) {
                 echo '<h3 style="color:red;">Error, no puede ser menor que 0</h3>';
+                $error=true;
             }
-            
+
             //si el tipo de producto es igual a ocio, avisamos a los padres
             if ($_POST['tipoProd'] == 'Ocio') {
                 echo 'Este producto es de ocio, avisar a los padres';
+                $error=true;
             }
 
-            //añadimos los datos a una variable para poder mostrarlos si todo esta ok
-            $producto = $_POST['producto'];
-            $tipoProducto = $_POST['tipoProd'];
-            $fechaCompra = $_POST['fechaCompra'];
-            $presupuesto = $_POST['presupuesto'];
 
-            //Mostramos todos los datos guardados
+             if(!$error){ //aqui decimos que si el error es falso seguimos
+                
+                //añadimos los datos a una variable para poder mostrarlos si todo esta ok
+                $producto = $_POST['producto'];
+                $tipoProducto = $_POST['tipoProd'];
+                $fechaCompra = $_POST['fechaCompra'];
+                $presupuesto = $_POST['presupuesto'];
 
-            echo "<h4>Datos ingresados:</h4>";
-            echo "<p>Producto: $producto</p>";
-            echo "<p>Tipo: $tipoProd</p>";
-            echo "<p>Fecha de Compra: " . date("d/m/Y", strtotime($fechaCompra)) . "</p>";
-            echo "<p>Presupuesto: $presupuesto</p>";
+                //Mostramos todos los datos guardados a traves de 
 
+                echo "<h4>Datos ingresados:</h4>";
+                echo "<p>Producto: $producto</p>";
+                echo "<p>Tipo: $tipoProducto</p>";
+                echo "<p>Fecha de Compra: ". $fechaCompra ."</p>";
+                echo "<p>Presupuesto: $presupuesto </p>";
+            
+            }
+
+         
         }
     }
 
