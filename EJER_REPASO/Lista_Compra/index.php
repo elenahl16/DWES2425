@@ -83,7 +83,6 @@
             //si el tipo de producto es igual a ocio, avisamos a los padres
             if ($_POST['tipoProd'] == 'Ocio') {
                 echo 'Este producto es de ocio, avisar a los padres';
-                $error=true;
             }
 
 
@@ -102,6 +101,15 @@
                 echo "<p>Tipo: $tipoProducto</p>";
                 echo "<p>Fecha de Compra: ". $fechaCompra ."</p>";
                 echo "<p>Presupuesto: $presupuesto </p>";
+
+                //iNSERTA EL PRODUCTO EN LA BD
+
+                //Crear objeto del modelo
+                //Comprobar que hay conexión
+
+                //crear objeto compra
+                //creas registro en bd
+
             
             }
 
