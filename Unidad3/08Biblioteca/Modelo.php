@@ -17,7 +17,7 @@ class Modelo
                 //Establecer conexión con la bd
                 $this->conexion = new PDO(
                     'mysql:host=' . $config['urlBD'] .
-                        ';port=' . $config['puerto'] . ';dbname=' . $config['nombreBD'],
+                    ';port=' . $config['puerto'] . ';dbname=' . $config['nombreBD'],
                     $config['usBD'],
                     $config['psUS']
                 );

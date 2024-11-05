@@ -1,6 +1,10 @@
+<?php
+require_once "Modelo.php";
+require_once "Compra.php";
+
+?>
 <!doctype html>
 <html lang="en">
-
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
@@ -51,7 +55,9 @@
         </div>
     </form>
     <?php
-    //si el boton ha sido creado
+    //AQUI HACEMOS LAS COMPROBACIONES
+
+    //Si el boton ha sido creado
     if (isset($_POST['crear'])) {
 
         $error=false;
@@ -86,15 +92,15 @@
             }
 
 
-             if(!$error){ //aqui decimos que si el error es falso seguimos
+             if(!$error){ //aqui decimos que si el error es falso mostramos todos los datos introducidos
                 
-                //añadimos los datos a una variable para poder mostrarlos si todo esta ok
+                //añadimos los datos a una variable para poder mostrarlos si todos los campos se han rellenado
                 $producto = $_POST['producto'];
                 $tipoProducto = $_POST['tipoProd'];
                 $fechaCompra = $_POST['fechaCompra'];
                 $presupuesto = $_POST['presupuesto'];
 
-                //Mostramos todos los datos guardados a traves de 
+                //Mostramos todos los datos guardados a traves de echo y la variable
 
                 echo "<h4>Datos ingresados:</h4>";
                 echo "<p>Producto: $producto</p>";
