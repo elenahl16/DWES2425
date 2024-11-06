@@ -111,10 +111,20 @@ require_once "Compra.php";
                 //iNSERTA EL PRODUCTO EN LA BD
 
                 //Crear objeto del modelo
-                //Comprobar que hay conexión
+                $m= new Modelo();
+ 
 
-                //crear objeto compra
-                //creas registro en bd
+
+
+                //Comprobar que hay conexión
+                if($m->getConexion()!=null){
+                    //crear objeto compra
+                    //creas registro en bd
+                }else{
+
+                }
+
+                
 
             
             }
