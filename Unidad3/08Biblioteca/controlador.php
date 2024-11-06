@@ -9,32 +9,44 @@ function generarInput($tipo, $nombre, $valor, $boton, $valorBoton)
         return $valor;
     }
 }
-function generarBotones($nombreB1, $nombreB2, $textoB1, $textoB2, $boton, $valorBoton)
+function generarBotones($nombreB1, $nombreB2, $textoB1, $textoB2, $boton, $valorBoton,$tienePrestamos)
 {
     if (isset($_POST[$boton]) && $_POST[$boton] == $valorBoton) {
         return '<button class="btn btn-outline-secondary" type="submit" name="' .
             $nombreB2 . '" value="' . $valorBoton . '">' . $textoB2 . '</button>';
+            
     } else {
+        if($nombreB1=='sBSocio' and $tienePrestamos){
+            //Genera boton con ventana de aviso
+
+            $htmlB1='<button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"  type="submit" name="' .
+                        $nombreB1 . '" value="' . $valorBoton . '">' . $textoB1 . '</button>';
+
+            $htmlVentana=generarModal('El socio tiene préstamos',
+            "El socio $valorBoton tiene préstamos.¿Desea borrarlo?",
+            'sDSocio',$valorBoton,'Borrar');
+
+        }
         return '<button class="btn btn-outline-secondary" type="submit" name="' .
             $nombreB1 . '" value="' . $valorBoton . '">' . $textoB1 . '</button>';
     }
 }
 
-function generarModal($titulo){
+function generarModal($titulo,$textoVentana,$nombreBoton,$valorBoton,$textoBoton){
 
-    return '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    return '<div class="modal fade" id="Modal'.$valorBoton.'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">'.$titulo.'</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="submit" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body">'.$textoVentana.'
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" name="'.$nombreBoton.'" value=""  class="btn btn-primary">'.$textoBoton.'
+        </button>
       </div>
     </div>
   </div>
