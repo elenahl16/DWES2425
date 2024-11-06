@@ -67,7 +67,6 @@ require_once "Compra.php";
             echo '<h3 style="color:red;">Error, no puede haber ni un campo vacio</h3>';
 
             $error=true;
-
         }
         
         else {
@@ -112,19 +111,15 @@ require_once "Compra.php";
 
                 //Crear objeto del modelo
                 $m= new Modelo();
- 
-
-
 
                 //Comprobar que hay conexión
                 if($m->getConexion()!=null){
+
                     //crear objeto compra
                     //creas registro en bd
                 }else{
 
                 }
-
-                
 
             
             }

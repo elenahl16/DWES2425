@@ -3,6 +3,7 @@ require_once "Compra.php";
 class Modelo{
 
     //DEFINIR ATRUBTOS: conexion, servidorbD, puerto, us, ps y bd
+
     private $conexion=null;
     private $servidorBd="localhost";
     private $puerto="3306";
@@ -25,8 +26,10 @@ class Modelo{
         
     }
 
-
-    
+    public function getConexion()
+    {
+        return $this->conexion;
+    }
 
 }
 ?>
