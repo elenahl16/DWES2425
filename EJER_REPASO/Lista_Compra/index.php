@@ -100,7 +100,7 @@ require_once "Compra.php";
                 $presupuesto = $_POST['presupuesto'];
 
                 //Mostramos todos los datos guardados a traves de echo y la variable
-
+ 
                 echo "<h4>Datos ingresados:</h4>";
                 echo "<p>Producto: $producto</p>";
                 echo "<p>Tipo: $tipoProducto</p>";
@@ -112,13 +112,14 @@ require_once "Compra.php";
                 //Crear objeto del modelo
                 $m= new Modelo();
 
-                //Comprobar que hay conexión
+                //Comprobamos si hay conexion en la base de datods
                 if($m->getConexion()!=null){
 
-                    //crear objeto compra
+                    $compra=new Compra($id,$producto,$tipo,$fechaLimite,$dinero);
                     //creas registro en bd
+                    
                 }else{
-
+                    echo "<h3 style='color:red;'>Error, no se puede conectar con la base de datos.</h3>";
                 }
 
             

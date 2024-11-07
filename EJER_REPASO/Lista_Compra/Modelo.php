@@ -13,15 +13,14 @@ class Modelo{
 
     function __construct(){
 
+        //Hacemos la conexion de manera más directa
         try {
             $this->conexion= new PDO('mysql:host=' .$this->servidorBd.';port=' . $this->puerto .';dbname=' . $this->nombreBD,
             $this->us,
             $this->ps);
 
-
         } catch (\Throwable $th) {
             echo $th -> getMessage();
-
         }
         
     }
