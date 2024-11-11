@@ -1,5 +1,6 @@
 <?php
 require_once 'Modelo.php';
+require_once 'Correo.php';
 
 function generarInput($tipo,$nombre,$valor,$boton,$valorBoton){
     if(isset($_POST[$boton]) && $_POST[$boton]==$valorBoton){
@@ -141,6 +142,31 @@ if (isset($_POST['sCrearSocio']) and $_SESSION['usuario']->getTipo() == 'A') {
                 $s = new Socio(0, $_POST['nombre'], '', $_POST['email'], $_POST['dni']);
                 if ($bd->crearUsuario($u, $s)) {
                     $mensaje = 'Usuario socio creado';
+                    //Enviar correo
+                    $email = new Correo();
+                    if($email->getCa()!=null){
+                        $textoHTML='<h1>'.$s->getNombre().
+                            ', bienvenido a la Biblioteca de Rosa</h1>'
+                            .'<p>Tus credenciales de acceso son:<br/>'
+                            .'Usuario:'.$s->getUs().'<br/>'
+                            .'Contraseña:'.$s->getUs().'<br/>'
+                            .'</p>'
+                            .'<h3>No olivides cambiar tu contraseña en el primer acceso</h3>';
+                        $textoNoHTML=$s->getNombre().
+                            ', bienvenido a la Biblioteca de Rosa.\n'
+                            .'Tus credenciales de acceso son:\n'
+                            .'Usuario:'.$s->getUs().'\n'
+                            .'Contraseña:'.$s->getUs().'\n'
+                            .'\n'
+                            .'No olivides cambiar tu contraseña en el primer acceso';
+                        $email->enviarCorreo('Creedenciales acceso Biblioteca',
+                        $s,
+                        $textoHTML,
+                        $textoNoHTML);
+                    }
+                    else{
+                        $mensaje.='. No se ha enviado email de credenciales de acceso';
+                    }
                     //Una vez que se crea el socio se dejan de recordar datos
                     unset($_POST['dni']);
                     unset($_POST['tipo']);
