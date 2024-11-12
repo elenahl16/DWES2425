@@ -1,3 +1,12 @@
+<?php
+//podemos hacer las validaciones dentro del value con una funcion
+function rellenarSelectd($valor,$defecto){
+    if(isset($_POST['tipo'])){
+
+    }
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

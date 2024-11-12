@@ -1,13 +1,15 @@
 <?php
 require_once "Notas.php";
 
-class Modelo{
+class Modelo
+{
 
     private $nombreFA = 'asig.dat'; //nombre del fichero donde guarda las asignaturas
     private $nombreFN = 'notas.dat'; //nombre del fichero donde guarda las notas
 
 
-    function __construct(){
+    function __construct()
+    {
         //Cosntructor
 
         //$this se utiliza dentro de una clase para acceder a sus propiedades o método
@@ -15,7 +17,8 @@ class Modelo{
     }
 
 
-    function crearNota(Notas $n){
+    function crearNota(Notas $n)
+    {
 
         /*
         1. tenemos que abrar el fichero donde queremos escribir
@@ -26,39 +29,48 @@ class Modelo{
         */
 
         try {
-            $f=fopen($this->nombreFN,'a+');
-            fwrite($f,$n->getAsig().';'.$n->getFecha().';'.
-            $n->getTipo().';'.$n->getFecha().';'.$n->getDescrip().';'.$n->getNota().PHP_EOL);
-
+            $f = fopen($this->nombreFN, 'a+');
+            fwrite($f, $n->getAsig() 
+            . ';' . $n->getFecha() 
+            . ';' . $n->getTipo()
+            . ';' . $n->getFecha()
+            . ';' . $n->getDescrip()
+            . ';' . $n->getNota() . PHP_EOL);
+            
         } catch (\Throwable $th) {
             echo 'Error al obtener la nota' . $th->getMessage();
-        }
-        finally{
+        } finally {
             fclose($f);
         }
     }
-    
 
-    function obtenerNotas() {
+
+    function obtenerNotas()
+    {
 
         $resultado = array();
         try {
-            if(file_exists($this->nombreFN)){
-                $registros=file($this->nombreFN);
-                foreach($registros as $linea){
-                    $campos=explode(';',$linea);
-                    $resultado[]=new Notas($campos[0],$campos[1],
-                    $campos[2], $campos[3],$campos[4]);
+            if (file_exists($this->nombreFN)) {
+                $registros = file($this->nombreFN);
+                foreach ($registros as $linea) {
+                    $campos = explode(';', $linea);
+                    $resultado[] = new Notas(
+                        $campos[0],
+                        $campos[1],
+                        $campos[2],
+                        $campos[3],
+                        $campos[4]
+                    );
                 }
             }
-           
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
         return $resultado;
     }
 
-    function obtenerAsignaturas(){
+    function obtenerAsignaturas()
+    {
 
         $resultado = array();
 
