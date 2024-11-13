@@ -1,15 +1,15 @@
 <?php
 class Trabajo{
 
-    private $fecha, $cliente, $tipo, $servicio, $importe;
+    private $fecha, $cliente, $tipo, $servicios, $importe;
 
-    function __construct($fecha, $cliente, $tipo, $servicio, $importe)
+    function __construct($fecha, $cliente, $tipo, $servicios, $importe)
     {
 
         $this->fecha = $fecha;
         $this->cliente = $cliente;
         $this->tipo = $tipo;
-        $this->servicio = $servicio;
+        $this->servicios = $servicios;
         $this->importe = $importe;
     }
 
@@ -76,9 +76,9 @@ class Trabajo{
     /**
      * Get the value of servicio
      */
-    public function getServicio()
+    public function getServicios()
     {
-        return $this->servicio;
+        return $this->servicios;
     }
 
     /**
@@ -86,9 +86,9 @@ class Trabajo{
      *
      * @return  self
      */
-    public function setServicio($servicio)
+    public function setServicios($servicios)
     {
-        $this->servicio = $servicio;
+        $this->servicios = $servicios;
 
         return $this;
     }

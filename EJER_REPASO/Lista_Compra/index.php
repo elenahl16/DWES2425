@@ -90,7 +90,7 @@ require_once "Compra.php";
                 echo 'Este producto es de ocio, avisar a los padres';
             }
 
-            if(!$error){ //aqui decimos que si el error es falso mostramos todos los datos introducidos
+            if(!$error){ //aqui decimos que si el error es distinto a falso mostramos todos los datos introducidos
                 
                 //añadimos los datos a una variable para poder mostrarlos si todos los campos se han rellenado
                 $producto = $_POST['producto'];
