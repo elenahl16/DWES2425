@@ -68,6 +68,16 @@ require_once 'controlador.php';
                 </form>
             <?php
             }
+            else{
+                //pintamos estadisticas del socio
+                $s =$bd->obtenerSocioDni($_SESSION['usuario']->getId());
+                $datos=$bd->estadistica($s->getId());
+                
+                foreach($dato as $d){
+
+                }
+
+            }
             ?>
         </div>
         <div>

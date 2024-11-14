@@ -46,7 +46,7 @@ class Correo
             $correo->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $correo->Port = 465;
             //Configuración del correo que vamos a escribir
-            $correo->setFrom('ehernandezl17@educarex.ex', 'Bibiloteca de Elenaaaa');
+            $correo->setFrom('ehernandezl17@educarex.ex', 'Bibiloteca de Elena');
             $correo->addAddress($destinatario->getEmail(), $destinatario->getNombre());
             //Configuración del contenido del mensaje
             $correo->isHTML(true);

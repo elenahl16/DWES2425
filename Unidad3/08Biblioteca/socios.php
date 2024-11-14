@@ -1,5 +1,9 @@
 <?php
 require_once 'controlador.php';
+if ($_SESSION['usuario']->getTipo() == 'S') {
+    //Los socios no pueden acceder a esta página
+    header('location:login.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,10 +123,10 @@ require_once 'controlador.php';
                                     echo '<td></td>';
                                     echo '<td></td>';
                                 }
-                                //obtener si el socio tiene prestamos para generar ventanas de avisos
-                                $tienePrestamos=sizeof($bd->obtenerPrestamosSocio($u))> 0;
+                                //Obtener si el socio tiene préstamos para generar ventanas de avisos
+                                $tienePrestamos=sizeof($bd->obtenerPrestamosSocio($u))>0;
                                 echo '<td>'.
-                                generarBotones('sMSocio','sGSocio','Modificar','Guardar','sMSocio',$u->getId(),false).
+                                generarBotones('sMSocio','sGSocio','Modificar','Guardar','sMSocio',$u->getId(),false).                                
                                 generarBotones('sBSocio','sCSocio','Borrar','Cancelar','sMSocio',$u->getId(),$tienePrestamos)
                                 .'</td>';
                                 echo '</tr>';

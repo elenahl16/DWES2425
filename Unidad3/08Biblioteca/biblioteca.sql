@@ -18,7 +18,7 @@ create table socios(
     nombre varchar(100) not null,
     fechaSancion date default null,
     email varchar(255) not null,
-    us varchar(9) not null,
+    us varchar(9) not null unique,
     foreign key (us) references usuarios(id) on update cascade on delete restrict
 )engine innodb;
 insert into socios values (null,'Carlos Díaz',null,'carlos@gmail.com','11111111A'),
@@ -102,6 +102,28 @@ begin
     return resultado;
 end//
 
+create procedure infoSocio(pIdS int)
+begin
+-- Nº de prestamos, fecha primer préstamo y fecha último préstamo
+	select count(*), min(fechaP), max(fechaP)
+		from prestamos
+		where socio = pIdS;
+-- Nº de préstmos no devueltos, nº de préstamos devueltos, título del último libro prestado
+select (select count(*) from prestamos where socio=pIdS and fechaRD is null),
+		(select count(*) from prestamos where socio=pIdS and fechaRD is not null),
+        (select titulo from libros where id = 
+			(select libro from prestamos where socio = pIdS and fechaP=(select fechaP
+				from prestamos where socio = pIdS order by fechaP desc limit 1) 
+			 limit 1)
+		);
+-- Nº de libros leídos por autor
+select  l.autor, count(*)
+	from prestamos p inner join libros l on p.libro = l.id
+    where p.socio = pIdS
+    group by l.autor;
+        
+end//
+
 delimiter ;
 
 select comprobarSiPrestar(5,1);  -- Chequea ejemplares
@@ -112,3 +134,5 @@ select comprobarSiPrestar(1,2);  -- Préstamos caducado
 select comprobarSiPrestar(2,2);  -- Socio con 2 o más préstamos
 select comprobarSiPrestar(3,2);  -- Correcto
 select comprobarSiPrestar(4,2);  -- Correcto
+
+call infoSocio(14);

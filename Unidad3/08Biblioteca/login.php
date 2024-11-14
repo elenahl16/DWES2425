@@ -1,19 +1,17 @@
 <?php
 require_once 'Modelo.php';
-
 session_start();
 if(isset($_SESSION['usuario'])){
     //Redirigimos si ya estamos logueados
     header('location:prestamos.php');
 }
-
 if(isset($_POST['entrar'])){
     $bd = new Modelo();
     if($bd->getConexion()==null){
         $error = 'Error, no se puede conectar con la BD';
     }
     else{
-        //Comprobar usuario y password y si los datos son correctos
+        //Comprobar usuario y ps y si los datos son correctos
         //Guardamos el usuario en una sesión y redirigimos
         //a la página préstamos.php
         $us = $bd->loguear($_POST['usuario'],$_POST['ps']);
