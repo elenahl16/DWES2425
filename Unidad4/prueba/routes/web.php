@@ -18,4 +18,4 @@ Route::get('/alumnos/{nombre}', function ($nombreA) {
 Route::get('/alumnos/insertar/{nombre}', function ($nombreA) {
     //aqui estoy definiendo una ruta con el nombre 
     return 'Página para crear alumno ' .$nombreA;
-});
+}); 
