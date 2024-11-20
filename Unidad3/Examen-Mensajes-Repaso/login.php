@@ -4,7 +4,7 @@ require_once "Modelo.php";
 //Primero antes de empezar tenemos que comprobar si tenemos conexion a la base de datos
 $bd= new Modelo();
 if($bd->getConexion()==null){//comprobamos que si la conexion es igual a null nos sale un mensaje de error
-    echo $mensajeError= 'Error, no hay conexión en la bd';
+     $mensajeError= 'Error, no hay conexión en la bd';
 }
 else{
 
@@ -13,11 +13,21 @@ else{
     if(isset($_POST['acceder'])){
 
         if(empty($_POST['usuario']) or empty($_POST['ps']) ){
-            echo $mensajeError='Error, no puede estar el usuario vacio ni la contraseña';
+            $mensajeError='Error, no puede estar el usuario vacio ni la contraseña';
         }
         else{
-            //si no esta vacio nos tiene que retorna uno si todo es correcto y 0 si hay error en el usuario o en la contraseña
-            
+            //si no esta vacio el usuario y la contraseña nos tiene que retorna 1 si todo es correcto
+            // y 0 si hay error en el usuario o en la contraseña al hacer login
+
+            //lo que hace es llamar al metodo login donde le vamos a pasar un usuario y una contraseña si es igual a 0 no hay ningun usuario con ese us y ps
+            $retorna=$bd->login($_POST['us'],$_POST['ps']);
+            if($retorna == 0){
+                $mensaje= 'No existe ningun usuario';
+            }
+            else if($retorna == 1){
+                
+            }
+
         }
     
     }

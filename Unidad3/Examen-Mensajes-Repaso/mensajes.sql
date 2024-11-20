@@ -1,6 +1,7 @@
 drop database if exists mensajes;
 create database mensajes;
-use mensajes;
+use
+ mensajes;
 
 create table departamento(
 	idDep int primary key not null auto_increment,
