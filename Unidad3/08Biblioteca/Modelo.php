@@ -42,8 +42,7 @@ class Modelo
         return $resultado;
     }
 
-    public function loguear($us, $ps)
-    {
+    public function loguear($us, $ps){
         //Devuelve null si los datos no son correctos
         // y un objeto Usuario si los datos son correctos
         $resultado = null;
