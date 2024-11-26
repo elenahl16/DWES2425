@@ -37,13 +37,59 @@ function __construct(){
     
 }
 
-function login(int $u, string $ps){
+function obtenerEmpleado(int $us){//vamos a obtener los empleados por su id
+
+    $resultado=0;
 
     try {
+       $consulta=$this->conexion->prepare('SELECT * FROM empleado e
+                                inner join departamento d on e.departamento=d.idDep
+                                where d.idDep= ?');
+        
+        $params=array($us);
+
+        if($consulta->execute($params)){
+            if($fila=$consulta->fetch()){
+                $resultado = new Empleado($fila['idEmp'],
+                    $fila['dni'],$fila['nombreEmp'],
+                    $fila['fechaNac'],new Departamento($fila['idDep'],$fila['nombre']),
+                    $fila['cambiarPs']);
+            }
+
+        }
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+
+    return $resultado;
+}
+
+
+function login(int $us, string $ps){
+
+    $resultado=0;//inicializamos el resultado a 0, para devolver si algo falla
+
+    try {
+        //lo que tenemos que hacer es ejecutar la funcion de login de la base de datos
+        //Hacemos primero la consulta con prepare porque tiene parametros
+        $consulta=$this->conexion->prepare('SELECT login(?,?)');
+
+        //el segundo paso lo que hace es rellenar con un array los valores a sustituir por ?
+        $params=array($us,$ps);
+
+        //por ultimo lo que hacemos es ejecutar la consulta con los parametros asignados
+        if($consulta->execute($params)){
+            if($fila=$consulta->fetch()){
+                //devolvemos lo que nos devuelve la funcion login
+                return $fila[0];
+            }
+        }
         
     } catch (\Throwable $th) {
         //throw $th;
     }
+    return $resultado;
 }
 
 
@@ -60,11 +106,9 @@ return $this->conexion;
  *
  * @return  self
  */ 
-public function setConexion($conexion)
-{
-$this->conexion = $conexion;
-
-return $this;
-}
+public function setConexion($conexion){
+    $this->conexion = $conexion;
+    return $this;
+    }
 }
 ?>

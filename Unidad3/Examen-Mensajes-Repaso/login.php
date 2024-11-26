@@ -4,7 +4,7 @@ require_once "Modelo.php";
 //Primero antes de empezar tenemos que comprobar si tenemos conexion a la base de datos
 $bd= new Modelo();
 if($bd->getConexion()==null){//comprobamos que si la conexion es igual a null nos sale un mensaje de error
-     $mensajeError= 'Error, no hay conexión en la bd';
+    $mensajeError= 'Error, no hay conexión en la bd';
 }
 else{
 
@@ -20,12 +20,20 @@ else{
             // y 0 si hay error en el usuario o en la contraseña al hacer login
 
             //lo que hace es llamar al metodo login donde le vamos a pasar un usuario y una contraseña si es igual a 0 no hay ningun usuario con ese us y ps
-            $retorna=$bd->login($_POST['us'],$_POST['ps']);
+            $retorna=$bd->login($_POST['usuario'],$_POST['ps']);
+
             if($retorna == 0){
                 $mensaje= 'No existe ningun usuario';
             }
             else if($retorna == 1){
+                //esque todo esta correcto y tenemos que recuperar la informacion del usuario es decir seleccionar 
+                //todos los empleados 
+                $us=$bd->obtenerEmpleado($_POST['usuario']);
                 
+                //guardamos la sesion
+                session_start();
+                $_SESSION['usuario']=$usuario; // lo que hace es escribir el valor de $usuario en la sesión.
+                header('location:mensajes,php');
             }
 
         }
@@ -34,7 +42,6 @@ else{
 
 
 }
-
 
 ?>
 <!doctype html>
