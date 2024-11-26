@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/inicio', function () {
+    return 'Página de inicio de usurios logueados';
+});
 
 Route::controller(LoginC::class)->group(
     function(){
