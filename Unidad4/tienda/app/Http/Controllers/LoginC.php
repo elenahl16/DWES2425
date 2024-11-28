@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class LoginC extends Controller
-{
+class LoginC extends Controller{
+
     function vistaLogin(){
         return view('usuarios/login');
     }
+
+
     function loguear(Request $request){
         //Validar
         $request->validate(
-            [   'email' =>'required|email:rfc,dns',
+            [   'email' =>'required',
                 'ps'=>'required'
             ]
         );
@@ -42,7 +45,7 @@ class LoginC extends Controller
         //Validar campos
         $request->validate([
             'nombre'=>'required',
-            'email' =>'required|email:rfc,dns|unique:App\Models\User,email',
+            'email' =>'required|unique:App\Models\User,email',
             'ps'=>'required|min:3|max:10',
             'ps2'=>'required|min:3|max:10|same:ps'
         ]);
@@ -66,6 +69,8 @@ class LoginC extends Controller
         }
     }
     function cerrarSesion(){
-        echo 'Cerrar sesión';
+
+        Auth::logout();
+        return redirect()->route('inicio');
     }
 }

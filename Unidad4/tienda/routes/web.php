@@ -5,10 +5,7 @@ use App\Http\Controllers\ProductosC;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/inicio', function () {
-    return view('inicio');
+    return redirect()->route('inicio');
 });
 
 Route::controller(LoginC::class)->group(
@@ -24,6 +21,7 @@ Route::controller(LoginC::class)->group(
 
 Route::controller(ProductosC::class)->group(
     function(){
-        Route::get('/inicio','verProducto')->name('inicio')->middleware('auth');
+        Route::get('inicio','verProductos')->name('inicio');
+        Route::post('addCarrito/sidP','addCarrito')->name('addCarrito');
     }
 );
