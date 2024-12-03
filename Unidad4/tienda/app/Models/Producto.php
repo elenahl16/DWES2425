@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    //relacion 1:n entre producto y carrito
-    //un producto puede tener varios registros en carrito
-
+    //Relación 1:N entre producto y carrito
+    //Un producto puede tener varios registros en carrito
     function productosCarrito(){
         return $this->hasMany(Carrito::class)->get();
     }
-
-    //relacion 1:n entre producto y pedido
-    //un producto puede tener varios registros en carrito
+    //Relación 1:N entre producto y pedido
+    //Un producto puede tener varios registros en pedidos
     function pedidos(){
-        return $this->hasMany(Carrito::class)->get();
+        return $this->hasMany(Pedido::class)->get();
     }
 }

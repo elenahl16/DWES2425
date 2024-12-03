@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginC;
 use App\Http\Controllers\ProductosC;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return redirect()->route('inicio');
 });
@@ -18,11 +19,16 @@ Route::controller(LoginC::class)->group(
     }
 );
 
-
 Route::controller(ProductosC::class)->group(
     function(){
-        Route::get('inicio','verProductos')->name('inicio');
-        Route::post('addCarrito/','addCarrito')->name('addCarrito');
+        Route::get('inicio', 'verProductos')->name('inicio');
+        Route::post('addCarrito', 'addCarrito')->name('addCarrito');
         Route::get('cesta','verCesta')->name('cesta');
+        Route::post('tratarCarrito/{idP}')->name('borraDelCarrito');
     }
 );
+
+
+
+
+
