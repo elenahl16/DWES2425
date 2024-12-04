@@ -12,41 +12,38 @@
 @endif
 
 @section('main')
-   
-        <table class="table">
-            <thead>
-                <tr>
-                    <td>Id</td>
-                    <td>Producto</td>
-                    <td>Precio Unitario</td>
-                    <td>Cantidad</td>
-                    <td>Total</td>
-                    <td>Imagen</td>
-                    <td>Eliminar</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($productosC as $p)
-                <tr>
-                    <form action="{{route('tratarCarrito',[$p->id])}}" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nombre</td>
+                <td>Precio</td>
+                <td>Stock</td>
+                <td>Imagen</td>
+                <td>Comprar</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($productos as $p)
+            <tr>
+                <td>{{$p->id}}</td>
+                <td>{{$p->nombre}}</td>
+                <td>{{$p->precio}}</td>
+                <td>{{$p->stock}}</td>
+                <td><img src="{{asset('img/productos/'.$p->imagen)}}" 
+                    alt="{{$p->id}}" width="60px"></td>
+                <td>
+                    <form action="{{route('addCarrito')}}" method="post">
                         @csrf
-                        <td>{{$p->id}}</td>
-                        <td>{{$p->producto->nombre}}</td>
-                        <td>{{$p->precioU}}</td>
-                        <td><input type="number" name="cantidad" min="1" value="{{$p->cantidad}}" onchange="submit()"/></td>
-                        <td>{{$p->cantidad*$p->precioU}}</td>
-                        <td><img src="{{asset('img/productos/'.$p->producto->imagen)}}" 
-                            alt="{{$p->id}}" width="30px"></td>
-                        <td>
-                            <button type="submit" name="btnBorrar" value="{{$p->id}}">
-                                <img src="{{asset('img/borrar.png')}}" 
-                                alt="cesta" width="20px">
-                            </button>
-                        </td>
+                        <button type="submit" name="btnAdd" value="{{$p->id}}">
+                            <img src="{{asset('img/cesta.png')}}" 
+                            alt="cesta" width="40px">
+                        </button>
                     </form>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
 @endsection

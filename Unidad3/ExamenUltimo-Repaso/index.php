@@ -1,9 +1,10 @@
 <?php 
 require_once "Modelo.php";
-
+session_start();
 
 //Primero tenemos que hacer antes la comprobacion si hay conexion para ver si podemos acceder a la bd
 $bd=new Modelo();
+
 if($bd->getConexion()==null){//comprobamos si la conexion es igual a null 
     $mensaje='Error no se puede conectar a la base de datos';
 
@@ -19,18 +20,21 @@ if($bd->getConexion()==null){//comprobamos si la conexion es igual a null
             //si no estan los campos vacios tenemos que hacer login
             
             $usuario=$bd->login($_POST['idRayuela'], $_POST['ps']); //lo que hace es llamar al metodo login donde le vamos a pasar un usuario y una contraseña
-            if($usuario){
+            if($usuario!=null){
                 if($activo == 0){
                     $mensaje='Error, el usuario no esta activo';
 
                 }else {
                     //si es activo guardamos la sesion
-                    session_start();
+                    $_SESSION['usario']= $usuario;
                     header('location:reserva.php');
                 }
 
 
+            }else{
+                $mensaje='Error, el usuario no existe';
             }
+
         }
 
     }

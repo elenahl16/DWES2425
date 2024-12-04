@@ -32,8 +32,9 @@ class Modelo{
             if($consulta->execute($params)){//ejecutamos la consulta con los parametros que le hemos asignado
                 
                 if($fila=$consulta->fetch()){
-                    $resultado= new Usuario($fila['idRayuela'],
-                    $fila['nombre']);
+                    $resultado= new Usuarios($fila['idRayuela'],
+                    $fila['nombre'],
+                    $fila['activo']);
                 }
 
             }

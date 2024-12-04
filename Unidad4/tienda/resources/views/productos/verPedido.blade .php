@@ -12,10 +12,6 @@
 @endif
 
 @section('main')
-        <form action="{{route('crearPedido')}}" method="post">
-            @csrf
-            <button type="submit">Comprar</button>
-        </form>
         <table class="table">
             <thead>
                 <tr>
@@ -25,28 +21,18 @@
                     <td>Cantidad</td>
                     <td>Total</td>
                     <td>Imagen</td>
-                    <td>Eliminar</td>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($productosC as $p)
+                @foreach ($pedidos as $p)
                 <tr>
-                    <form action="{{route('tratarCarrito',[$p->id])}}" method="post">
-                        @csrf
                         <td>{{$p->id}}</td>
                         <td>{{$p->producto->nombre}}</td>
                         <td>{{$p->precioU}}</td>
-                        <td><input type="number" name="cantidad" min="1" value="{{$p->cantidad}}" onchange="submit()"/></td>
+                        <td>{{$p->cantidad}}"</td>
                         <td>{{$p->cantidad*$p->precioU}}</td>
-                        
                         <td><img src="{{asset('img/productos/'.$p->producto->imagen)}}" 
-                            alt="{{$p->id}}" width="70px"></td>
-                        <td>
-                            <button type="submit" name="btnBorrar" value="{{$p->id}}">
-                                <img src="{{asset('img/borrar.png')}}" 
-                                alt="cesta" width="30px">
-                            </button>
-                        </td>
+                            alt="{{$p->id}}" width="30px"></td>
                     </form>
                 </tr>
                 @endforeach
