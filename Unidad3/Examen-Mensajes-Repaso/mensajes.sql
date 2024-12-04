@@ -1,7 +1,6 @@
 drop database if exists mensajes;
 create database mensajes;
-use
- mensajes;
+use mensajes;
 
 create table departamento(
 	idDep int primary key not null auto_increment,
@@ -65,3 +64,7 @@ begin
     else return 1;
     end if;
 end//
+
+select * from empleado e
+inner join departamento d on e.departamento=d.idDep
+where d.idDep= ?;

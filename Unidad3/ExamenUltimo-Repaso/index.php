@@ -1,5 +1,41 @@
 <?php 
+require_once "Modelo.php";
 
+
+//Primero tenemos que hacer antes la comprobacion si hay conexion para ver si podemos acceder a la bd
+$bd=new Modelo();
+if($bd->getConexion()==null){//comprobamos si la conexion es igual a null 
+    $mensaje='Error no se puede conectar a la base de datos';
+
+}else{
+    //comprobamos que el usuario y contraseña no esten vacios
+
+    if(isset($_POST['acceder'])){
+
+        if(empty($_POST['usuario']) or empty($_POST['ps'])){ //si esta vacio el nombre y la contraseña 
+            $mensaje='Error, no puede haber ningun campo vacio';
+
+        }else {
+            //si no estan los campos vacios tenemos que hacer login
+            
+            $usuario=$bd->login($_POST['idRayuela'], $_POST['ps']); //lo que hace es llamar al metodo login donde le vamos a pasar un usuario y una contraseña
+            if($usuario){
+                if($activo == 0){
+                    $mensaje='Error, el usuario no esta activo';
+
+                }else {
+                    //si es activo guardamos la sesion
+                    session_start();
+                    header('location:reserva.php');
+                }
+
+
+            }
+        }
+
+    }
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -28,68 +64,6 @@
     <section>
         <h3 style="color:red">Mensaje</h3>
     </section>
-
-    <!-- Información de usuario logueado -->
-
-    <form method="post">
-        <section>
-            <table width="100%">
-                <tr>
-                    <td>
-                        <h3 style="color:blue">Id Rayuela</h3>
-                    </td>
-                    <td>
-                        <h3 style="color:blue">Nombre</h3>
-                    </td>
-                    <td>
-                        <h3 style="color:blue">Número de Reservas</h3>
-                    </td>
-                    <td>
-                        <h3 style="color:blue">Color Reservas</h3>
-
-                        <input type="color" name="color" />
-                        <input type="submit" name="cambiarColor" value="cambiar" />
-                    </td>
-                    <td>
-                        <input type="submit" name="salir" value="Salir" />
-                    </td>
-                </tr>
-            </table>
-        </section>
-        <!-- Seleccionar Recurso -->
-        <section>
-            <h3 style="color:blue">Selecciona Recurso</h3>
-            <select name="recurso">
-            </select>
-            <input type="submit" name="verR" value="verReservas" />
-            <table width="50%">
-                <tr>
-                    <td>Id</td>
-                    <td>Usuario</td>
-                    <td>Recurso</td>
-                    <td>Fecha</td>
-                    <td>Hora</td>
-                </tr>
-            </table>
-        </section>
-        <!-- Crear/anular reserva -->
-        <section>
-            <h3 style="color:blue">Crear/Anular Reserva</h3>
-            <label for="fecha">Fecha Reserva</label>
-            <input type="date" name="fecha" id="fecha" />
-            <label for="hora">Hora Reserva</label>
-            <select name="hora" id="hora">
-                <option value="1">Primera</option>
-                <option value="2">Segunda</option>
-                <option value="3">Tercera</option>
-                <option value="4">Cuarta</option>
-                <option value="5">Quinta</option>
-                <option value="6">Sexta</option>
-            </select>
-            <button type="submit" name="reservar">Reservar</button>
-            <button type="submit" name="anular">Anular</button>
-        </section>
     </form>
 </body>
-
 </html>
