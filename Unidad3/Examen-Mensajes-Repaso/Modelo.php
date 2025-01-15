@@ -74,10 +74,8 @@ function login(int $us, string $ps){
         //lo que tenemos que hacer es ejecutar la funcion de login de la base de datos
         //Hacemos primero la consulta con prepare porque tiene parametros
         $consulta=$this->conexion->prepare('SELECT login(?,?)');
-
         //el segundo paso lo que hace es rellenar con un array los valores a sustituir por ?
         $params=array($us,$ps);
-
         //por ultimo lo que hacemos es ejecutar la consulta con los parametros asignados
         if($consulta->execute($params)){
             if($fila=$consulta->fetch()){
