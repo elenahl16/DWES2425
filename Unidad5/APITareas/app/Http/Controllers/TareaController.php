@@ -105,6 +105,7 @@ class TareaController extends Controller{
                 $tarea->finalizada=$request->finalizada;
             }
 
+            //guardamos los cambios
             if($tarea->save()){
                 return response()->json(['mensaje'=>'Tarea creada','tarea'=>$tarea],201);
             }
@@ -129,7 +130,7 @@ class TareaController extends Controller{
             if($tarea->delete()){
                 return response()->json('Tarea borrada',204);
             }
-            
+
         } catch (\Throwable $th) {
             return response()->json('Error:'.$th->getMessage(),500);
         }
