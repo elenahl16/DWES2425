@@ -11,9 +11,14 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(){
+
+        //este metodo lo que hace es devolvernos todos los productos
+        try {
+            return Producto::all();
+        } catch (\Throwable $th) {
+            return response()->json('Error: ' .$th->getMessage(),500);
+        }
     }
 
     /**
