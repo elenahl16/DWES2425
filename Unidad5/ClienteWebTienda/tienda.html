@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tienda</title>
+    <script src="axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div>
+        <span id="nombreUS"></span>
+        <button type="button" onclick="salir()">Salir</button>
+    </div>
+    <div style="display: flex;">
+        <div>
+            <h3>Productos</h3>
+            <table id="productos">
+
+            </table>
+        </div>
+        <div>
+            <h3>Pedidos</h3>
+            <table id="pedidos"></table>
+
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    //Recuperamos el token y el nombre del usuario
+    const token=localStorage.getItem('token');
+
+    if(token==null){
+        window.location.href='login.html';
+
+    }else{
+        const nombreUS=localStorage.getItem('usuario');
+        document.getElementById('nombreUS').textContent=`${nombreUS}`;
+
+        //indicamos que todas las peticiones van a ir con token de autenticacion
+        axios.defaults.headers.common['Authorization']=`Bearer ${token}`;
+
+        cargarProductos();
+    }
+
+    function cargarProductos(){
+        const url='http://localhost/rosa/DWES2425/Unidad5/APITienda/public/api/productos';
+
+        axios.get(url)
+        .then(response=>{
+            
+        })
+        .catch(error=>{
+            console.error(error)
+            alert('Error al cargar los productos');
+        });
+    }
+
+    function salir(){
+        //primero pasamos la url de la api luego tenemos que mirar si tiene parametros o no
+        const url='http://localhost/rosa/DWES2425/Unidad5/APITienda/public/api/logout';
+           
+        axios.post(url)
+        .then(response=>{
+            alert('salir');
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            window.location.href='login.html';
+        })
+        .catch(error=>{
+            console.error(error)
+            alert('Error: No se ha cerrado la sesión');
+        });
+    }
+</script>
+</html>

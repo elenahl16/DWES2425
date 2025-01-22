@@ -17,6 +17,8 @@
         <button type="button" onclick="login()">Entrar</button>
     </form>
 
+    <a href="registro.html">Registro</a>
+
 <script>
     function login(){
         const url='http://localhost/rosa/DWES2425/Unidad5/APITienda/public/api/login';
@@ -34,7 +36,6 @@
 
             localStorage.setItem('token',token);
             localStorage.setItem('usuario',us);
-
             window.location.href='tienda.html';
         })
         .catch(error=>{

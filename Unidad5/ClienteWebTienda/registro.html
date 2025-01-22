@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="axios/dist/axios.min.js"></script>
+    <title>Registro</title>
+</head>
+<body>
+    <form action="">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" placeholder="Nombre">
+        <br>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="email@gmail.com">
+        <br>
+
+        <label for="ps">Contraseña:</label>
+        <input type="password" id="ps" required>
+        <br>
+
+        <label for="ps2">Repetir Contraseña</label>
+        <input type="password" id="ps2" required>
+        <br>
+        <button type="button" onclick="registro()">Entrar</button>
+    </form>
+
+    <a href="login.html">Volver</a>
+
+    <script>
+        function registro(){
+            //primero tenemos que poner la url de nuestra api
+            const url='http://localhost/rosa/DWES2425/Unidad5/APITienda/public/api/registro';
+            const datos={
+                nombre:document.getElementById('nombre').value,
+                email:document.getElementById('email').value,
+                ps:document.getElementById('ps').value,
+                ps2:document.getElementById('ps2').value
+            }
+                
+
+        axios.post(url,datos)
+        .then(response=>{
+            alert('Usuario registrado')
+            window.location.href='login.html';
+        })
+        .catch(error=>{
+            console.error(error)
+            alert('Error: '+ error.response.status + ':' + error.response.data.message);
+        });
+
+        }
+    </script>
+
+</body>
+</html>
