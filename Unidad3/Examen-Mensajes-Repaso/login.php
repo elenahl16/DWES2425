@@ -32,7 +32,7 @@ else{
                 
                 //guardamos la sesion
                 session_start();
-                $_SESSION['usuario']=$usuario; // lo que hace es escribir el valor de $usuario en la sesión.
+                $_SESSION['usuario']=$usuario; // lo que hace es guardar el valor de $usuario en la sesión.
                 header('location:mensajes,php');
             }
 
