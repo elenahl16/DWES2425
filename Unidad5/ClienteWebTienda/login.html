@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="axios/dist/axios.min.js"></script>
     <title>Login</title>
+    <script src="axios/dist/axios.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <form action="" method="post">
-        <label for="email">Email</label>
-        <input type="text" id="email" placeholder="email@gmail.com">
-        <br>
-        <label for="ps">Contraseña:</label>
-        <input type="password" id="ps" required>
-        <br>
-        <button type="button" onclick="login()">Entrar</button>
-    </form>
-
-    <a href="registro.html">Registro</a>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Inicio de Sesión</h2>
+        <form class="p-4 border rounded bg-white">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" id="email" class="form-control" placeholder="email@gmail.com">
+            </div>
+            <div class="mb-3">
+                <label for="ps" class="form-label">Contraseña</label>
+                <input type="password" id="ps" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-primary w-100" onclick="login()">Entrar</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="registro.html" class="text-decoration-none">Registro</a>
+        </div>
+    </div>
 
 <script>
     function login(){
@@ -42,7 +50,6 @@
             alert('Login Incorrecto');
         })
     }
-
 </script>
 </body>
 </html>
