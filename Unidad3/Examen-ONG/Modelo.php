@@ -2,7 +2,7 @@
 require_once "Beneficiario.php";
 require_once "Centro.php";
 require_once "Servicio.php";
-require_once "ServicioUsuariophp";
+require_once "ServicioUsuario.php";
 
 class Modelo
 {
@@ -20,7 +20,8 @@ class Modelo
         }
     }
 
-    function obtenerCentros(){
+    function obtenerCentros()
+    {
         //funcion donde obtenemos todos los centros que hay en la base de datos
 
         $resultado = array();
@@ -43,8 +44,30 @@ class Modelo
         return $resultado;
     }
 
-    function obtenerCentro(){
-        
+    function obtenerCentro($id){
+        //funcion donde obtenemos solo los centros que esten activos
+        $resultado = null;
+        try {
+
+            $consulta = $this->conexion->prepare('SELECT * FROM centros WHERE id=?');
+            $param = array($id);
+            if ($consulta->execute($param)) {
+                if ($fila = $consulta->fetch()) {
+    
+                    $resultado = new Centro(
+                        $fila['id'],
+                        $fila['nombre'],
+                        $fila['localidad'],
+                        $fila['activo']
+                    );
+                }
+            }
+        } catch (\Throwable $th) {
+
+            $th->getMessage();
+        }
+
+        return $resultado;
     }
 
 

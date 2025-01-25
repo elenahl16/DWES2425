@@ -13,11 +13,11 @@ if($bd->getConexion()==null){
 if(isset($_POST['seleccionarC'])) {
 
     //si hemos seleccionado un centro chequeamos si existe ese centro y este activo 
-    $c=$bd->obtenerCentros($_POST['centro']);
+    $centro=$bd->obtenerCentro($_POST['centro']);
 
-    if($c != null and $c->getActivo()){
+    if($centro != null and $centro->getActivo()){
         //guardamos el centro en la sesión
-        $_SESSION['centro']=$c; //lo que hace es guardar el valor de $centro en la sesión.
+        $_SESSION['centro']=$centro; //lo que hace es guardar el objeto centro en la sesion
     }
     
 }

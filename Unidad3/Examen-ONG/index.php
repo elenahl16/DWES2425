@@ -1,3 +1,7 @@
+<?php
+require_once "Modelo.php";
+require_once "controlador.php";
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -16,11 +20,16 @@
          echo (isset($mensaje)? $mensaje:'')
          ?>
     </div>
+
     <!-- Formulario para seleccionar un centro -->
     <form action="" method="post">
         <label for="centro">Centro:</label>
         <select name="centro" id="centro">
             <?php
+            //aqui recorremos todos los centros que hay en la base de datosd esta manera es mas directa 
+            foreach($bd->obtenerCentros() as $c){
+                echo "<option>'" . $c->getNombre() . "</option>";
+            }
             ?>
         </select>
         <button type="submit" name="seleccionarC">Seleccionar</button>
