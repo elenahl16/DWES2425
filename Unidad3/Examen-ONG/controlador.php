@@ -1,5 +1,5 @@
 <?php
-//aqui vamos hacer todas
+//aqui vamos hacer todas las comprobaciones de los datos que nos llegan del formulario
 require_once "Modelo.php";
 
 session_start();
@@ -18,6 +18,7 @@ if(isset($_POST['seleccionarC'])) {
     if($centro != null and $centro->getActivo()){
         //guardamos el centro en la sesión
         $_SESSION['centro']=$centro; //lo que hace es guardar el objeto centro en la sesion
+        header('location:index.php');//redirigimos a la pagina principal
     }
     
 }

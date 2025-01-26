@@ -14,7 +14,8 @@ class Modelo
 
         try {
             //aqui hacemmos la conexion a la base de datos
-            $this->conexion = new PDO('mysql:host=localhost;dbname=ong', 'root', 'root');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=ong','root','root');
+            
         } catch (PDOException $e) {
             $e->getMessage();
         }

@@ -17,8 +17,8 @@ require_once "controlador.php";
         <?php
         //aqui mostramos los mensajes de error donde verifica si mensaje esta  definida y no es null 
         //se mostrara el mensaje de error y si no mostrara una cadena vacia
-         echo (isset($mensaje)? $mensaje:'')
-         ?>
+        echo (isset($mensaje) ? $mensaje : '')
+        ?>
     </div>
 
     <!-- Formulario para seleccionar un centro -->
@@ -27,19 +27,24 @@ require_once "controlador.php";
         <select name="centro" id="centro">
             <?php
             //aqui recorremos todos los centros que hay en la base de datosd esta manera es mas directa 
-            foreach($bd->obtenerCentros() as $c){
-                echo "<option>'" . $c->getNombre() . "</option>";
+            foreach ($bd->obtenerCentros() as $c) {
+                echo '<option value="' . $c->getId() . '">' . $c->getNombre() . '</option>';
             }
+
             ?>
         </select>
         <button type="submit" name="seleccionarC">Seleccionar</button>
     </form>
 
 
-    <!-- Datos del centro -->
+    <!-- Datos del centro, aqui vamos a mostrar los datos del centro que hemos seleccionado que se va almacenar en la session -->
+
     <form action="" method="post">
         <h3>
-            Nombre del centro - Localidad
+            <?php
+            $c = $_SESSION['centro'];
+            echo $c->getNombre() . ' - ' . $c->getLocalidad();
+            ?>
             <button type="submit" name="cambiarC">Cambiar Centro</button>
         </h3>
     </form>
