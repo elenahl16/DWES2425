@@ -20,6 +20,13 @@ if(isset($_POST['seleccionarC'])) {
         $_SESSION['centro']=$centro; //lo que hace es guardar el objeto centro en la sesion
         header('location:index.php');//redirigimos a la pagina principal
     }
+
+}elseif(isset($_POST['cambiarC'])){
+    /*si existe la variable cambiarC, tiene que cambiar el centro, 
+    utulizaremos session_destroy para destruir la sesion y que pueda cambiarla*/
+    
+    session_destroy();
+    header('location:index.php');
     
 }
 
