@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use Illuminate\Http\Request;
-
+use Illuminate\Routing\Controller;
 
 class ReservaController extends Controller
 {
@@ -13,7 +13,7 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        //
+        return  response()->json(Reserva::all());
     }
 
     /**

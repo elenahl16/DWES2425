@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recuerso;
+use App\Models\Recurso;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
-class RecuersoController extends Controller
+class RecursoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class RecuersoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Recuerso $recuerso)
+    public function show(Recurso $recurso)
     {
         //
     }
@@ -34,7 +35,7 @@ class RecuersoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Recuerso $recuerso)
+    public function update(Request $request, Recurso $recurso)
     {
         //
     }
@@ -42,7 +43,7 @@ class RecuersoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Recuerso $recuerso)
+    public function destroy(Recurso $recurso)
     {
         //
     }
