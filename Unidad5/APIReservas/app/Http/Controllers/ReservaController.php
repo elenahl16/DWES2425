@@ -11,18 +11,29 @@ class ReservaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index(){
+        //El index es donde vamos a recuperar todas las reservas que tenemos en la base de datos y devolverlas en formato json
+
+
         return  response()->json(Reserva::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        /**En store es donde vamos a crear las reservas despues tenemos que hacer las validaciones,
+          hacer un objeto de reserva, luego rellenarlos con los datos que viene en el request y luego guardarlos en la base de datos*/
+
+         //1. tenemos que validar los datos
+         $request->validate([]);
+         try {
+
+         } catch (\Throwable $th) {
+            //throw $th;
+         }
     }
+
 
     /**
      * Display the specified resource.

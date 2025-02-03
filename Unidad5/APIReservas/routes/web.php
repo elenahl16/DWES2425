@@ -10,6 +10,7 @@ Route::get('/', function () {
 });
 
 
-Route::post('reserva', [ReservaController::class,'reserva'])->withoutMiddleware([VerifyCsrfToken::class]);
+//creamos las rutas
+Route::post('reserva', [ReservaController::class,'store'])->withoutMiddleware([VerifyCsrfToken::class]);//ruta donde define los metodos CRUD sin verificar el token
 Route::get('reserva', [ReservaController::class,'index'] )->name('inicio');
-Route::get('recurso', [RecursoController::class,'recurso'] );
+Route::get('recurso', [RecursoController::class,'recurso']);
