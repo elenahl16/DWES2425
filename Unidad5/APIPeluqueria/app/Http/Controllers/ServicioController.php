@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detalle_Cita;
+use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class DetalleCitaController extends Controller{
+class ServicioController extends Controller{
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +26,7 @@ class DetalleCitaController extends Controller{
     /**
      * Display the specified resource.
      */
-    public function show(Detalle_Cita $detalle_Cita)
+    public function show(Servicio $servicio)
     {
         //
     }
@@ -34,7 +34,7 @@ class DetalleCitaController extends Controller{
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Detalle_Cita $detalle_Cita)
+    public function update(Request $request, Servicio $servicio)
     {
         //
     }
@@ -42,7 +42,7 @@ class DetalleCitaController extends Controller{
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Detalle_Cita $detalle_Cita)
+    public function destroy(Servicio $servicio)
     {
         //
     }
