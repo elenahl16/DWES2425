@@ -14,8 +14,12 @@ class ReservaController extends Controller
     public function index(){
         //El index es donde vamos a recuperar todas las reservas que tenemos en la base de datos y devolverlas en formato json
 
+        try {
+            return Reserva::all();
 
-        return  response()->json(Reserva::all());
+        } catch (\Throwable $th) {
+            return response()->json('Error'.$th->getMessage());
+        }
     }
 
     /**
@@ -26,12 +30,34 @@ class ReservaController extends Controller
           hacer un objeto de reserva, luego rellenarlos con los datos que viene en el request y luego guardarlos en la base de datos*/
 
          //1. tenemos que validar los datos
-         $request->validate([]);
-         try {
+        $request->validate([
+            'id'=>'required',
+            'empleado'=>'required',
+            'fechaI'=>'required',
+            'fehcaF'=>'required',
+            'recurso_id'=>'required'
+        ]);
 
-         } catch (\Throwable $th) {
-            //throw $th;
-         }
+        try {
+            //creamos el objeto de la clase reserva
+            //request es para capturar los datos enviados
+            $reserva=new Reserva();
+
+            $reserva->id=$request->id;
+            $reserva->empleado=$request->empleado;
+            $reserva->fechaI=$request->fechaI;
+            $reserva->fechaF=$request->fechaF;
+            $reserva->recurso_id=$request->recurso_id;
+
+            if($reserva->save()){
+                return $reserva;
+            }else{
+                return response()->json('Error, no se ha podido crear la reserva');
+            }
+
+        } catch (\Throwable $th) {
+            return response()->json('Error'.$th->getMessage());
+        }
     }
 
 

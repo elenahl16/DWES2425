@@ -11,9 +11,15 @@ class RecursoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index() {
+        //recuperamos  los datos
+
+        try {
+            return Recurso::all();
+
+        } catch (\Throwable $th) {
+            return response()->json('Error'.$th->getMessage());
+        }
     }
 
     /**
@@ -22,6 +28,32 @@ class RecursoController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'id'=>'required',
+            'nombre'=>'required',
+            'tipo'=>'required|in: Salas,Ordenadores,Discos Duros,Coche'
+        ]);
+
+        try {
+            //creamos el objeto de la clase reserva
+            //request es para capturar los datos enviados
+            $recurso=new Recurso();
+
+            $recurso->id=$request->id;
+            $recurso->nombre=$request->empleado;
+            $recurso->tipo=$request->fechaI;
+
+
+            if($recurso->save()){
+                return $recurso;
+            }else{
+                return response()->json('Error, no se ha podido crear la reserva');
+            }
+
+        } catch (\Throwable $th) {
+            return response()->json('Error'.$th->getMessage());
+        }
     }
 
     /**

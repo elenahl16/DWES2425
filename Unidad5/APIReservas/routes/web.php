@@ -11,6 +11,9 @@ Route::get('/', function () {
 
 
 //creamos las rutas
+Route::get('reserva', [ReservaController::class,'index']);
+
+//crear reserva
 Route::post('reserva', [ReservaController::class,'store'])->withoutMiddleware([VerifyCsrfToken::class]);//ruta donde define los metodos CRUD sin verificar el token
-Route::get('reserva', [ReservaController::class,'index'] )->name('inicio');
+//obtener los recursos existentes
 Route::get('recurso', [RecursoController::class,'recurso']);
