@@ -41,8 +41,8 @@ class RecursoController extends Controller
             $recurso=new Recurso();
 
             $recurso->id=$request->id;
-            $recurso->nombre=$request->empleado;
-            $recurso->tipo=$request->fechaI;
+            $recurso->nombre=$request->nombre;
+            $recurso->tipo=$request->tipo;
 
 
             if($recurso->save()){
