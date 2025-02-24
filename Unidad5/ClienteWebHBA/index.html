@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="axios/dist/axios.min.js"></script>
+    <title>HBA</title>
+    <style>
+        td{
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; flex-direction: row; justify-content:space-evenly;">
+        <div>
+            <h3>Usuario</h3>
+            <form action="">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Introduce email" required>
+                <button type="button" name="detalle">Cargar Reproducciones</button>
+                <h3>Contenido HBA</h3>
+                <table id="contenido" border=1 style="border-collapse: collapse;">
+
+                </table>
+            </form>
+        </div>
+        <div>
+            <h3>Reproducciones</h3>
+            <table id="reproducciones" border=1 style="border-collapse: collapse;">
+
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

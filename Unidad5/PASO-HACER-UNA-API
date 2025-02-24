@@ -1,0 +1,9 @@
+1. Primero lo que tenemos que hacer es crear el proyecyo: composer create-project laravel/laravel nombreProyecto.
+
+2. Despues tenemos que modificar .env donde tenemos que cambiar el gestor de base de datos, asignar el 
+nombre de como queremos llamar a la bd y poner el usuario y contraseña.
+
+3. como existe la bd, tenemos que crear los modelos y los controladores--> php artisan make:model nombreModelo --api 
+
+4. Creamos las rutas necesarias y despues hacemos las relaciones en los modelos.
+ 
