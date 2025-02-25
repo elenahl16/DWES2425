@@ -1,10 +1,16 @@
 //Importar el modelo de Usuario
 const Usuario = require('../Models/usuario');
+
 //Importar bcrypt
 const cifrar = require('bcrypt');
 
 //Importar gestión de tokens
 const servicioJWT = require('../service/jwt');
+const {request} = require('express')
+
+//Importar librerias que permiten trabajar con ficheros
+const fs=requiere('fs');
+const path = require('path');
 
 async function login(req, res) {
 
@@ -72,17 +78,48 @@ async function registro(req, res) {
 
 async function subirAvatar(req,res){
     try {
+        console.log(req.files);
         //comprobamos si hay fichero en req
         if(!req.files.avatar){
-            throw 'No has proporcionado'
+            throw 'No has proporcionado fichero'
         }
+
+        //Obtener el nombre del fichero para guardarlo en la bd, en el usuario
+        const rutaF=req.files.avatar.path.split('/');
+        //datosUS lo hemos creado en req al validar el token
+        const us = Usuario.findByPK(req.datosUS.id);
+        //Rellenar el atributo avatar con el nombre del fichero subido
+        us.avatar=rutaF[1];
+
+        if(us.changed()){
+            await us.save();
+            res.status(200).send('Avatar actualizado');
+        }
+
+        res.status(200).send();
+
     } catch (error) {
-        
+        res.status(500).send({textoError:error});
     }
 }
 
 
 async function obtenerAvatar(req,resp) {
+  
+    try {
+        //comprobar que us existe y tiene avatar
+        const us = await Usuario.findByPK(req.datosUS.id);
+        if(!us || us.avatar){
+            throw 'Usuario no existe o no tiene avatar';
+
+        }else{
+            const nombreF=`./avatars/${us.avatar}´;
+            //Ac
+        }
+    } catch (error) {
+        
+    }
+
     
 }
 

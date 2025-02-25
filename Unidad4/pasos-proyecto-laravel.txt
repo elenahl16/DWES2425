@@ -11,4 +11,4 @@ CREA LA MIGRACION Y EL MODELO --> php artisan make:model NOMBRETABLA –-migrati
 EJECUTAR MIGRACIONES--> php artisan migrate
 CREAR CONTROLADOR --> php artisan make:controller cocheControler
 
-4. tenemos que hacer las rutas
+4. Una vez hecho todo lo anterior para inicializar los datos tenemos que hacerlo con los seeder 
