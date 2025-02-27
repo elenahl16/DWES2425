@@ -34,7 +34,7 @@ class ReservaController extends Controller
             'id'=>'required',
             'empleado'=>'required',
             'fechaI'=>'required',
-            'fehcaF'=>'required',
+            'fechaF'=>'required',
             'recurso_id'=>'required'
         ]);
 

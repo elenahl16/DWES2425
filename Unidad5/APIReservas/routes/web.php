@@ -10,10 +10,11 @@ Route::get('/', function () {
 });
 
 
-//creamos las rutas
+//creamos las rutas esta es para ver las reservas que tenemos
 Route::get('reserva', [ReservaController::class,'index']);
 
 //crear reserva
 Route::post('reserva', [ReservaController::class,'store'])->withoutMiddleware([VerifyCsrfToken::class]);//ruta donde define los metodos CRUD sin verificar el token
+
 //obtener los recursos existentes, los tenemos que recuperar
 Route::get('recurso', [RecursoController::class,'index']);
