@@ -23,11 +23,13 @@
         <input type="date" name="fechaRegistro" id="fechaRegistro" value="<?php echo(!empty($_POST['fechaRegistro']) ? $_POST['fechaRegistro']:date('Y-m-d'))?>"><br/>
 
         <label for="genero">Genero</label>
-        <select name="genero" id="genero" multiple="multiple">
-            <option <?php echo(isset($_POST['genero']) && $_POST['genero']=='Accion'?'selected="selected"':'')?>>Accion</option>
-            <option <?php echo(isset($_POST['genero']) && $_POST['genero']=='Comedia'?'selected="selected"':'')?>>Comedia</option>
-            <option <?php echo(isset($_POST['genero']) && $_POST['genero']=='Drama'?'selected="selected"':'')?>>Drama</option>
-            <option <?php echo(isset($_POST['genero']) && $_POST['genero']=='Terror'?'selected="selected"':'')?>>Terror</option>
+        <select name="genero[]" id="genero" multiple="multiple">
+        <!--lo que hacemos es si seleccionamos genero y genero es igual a la opcion accion, si la condicion se cumple nos 
+        lo selecciona si no lo deja vacio-->
+            <option <?php echo(isset($_POST['genero']) && in_array('Accion', $_POST['genero']) ?'selected="selected"':'')?>>Accion</option>
+            <option <?php echo(isset($_POST['genero']) && in_array('Comedia', $_POST['genero']) ?'selected="selected"':'')?>>Comedia</option>
+            <option <?php echo(isset($_POST['genero']) && in_array('Drama', $_POST['genero']) ?'selected="selected"':'')?>>Drama</option>
+            <option <?php echo(isset($_POST['genero']) && in_array('Terror', $_POST['genero']) ?'selected="selected"':'')?>>Terror</option>
         </select><br/>
 
         <label>Tipo</label></br>
@@ -40,8 +42,8 @@
         <input type="radio" id="tipoS" name="tipo" value="serie" <?php echo(isset($_POST['tipo']) && $_POST['tipo']=='serie'?'checked="checked"':'')?>/>
         <label for="tipoS">Serie</label></br>
         
-        <label for="numP">Nº de Peliculas</label>
-        <input type="text" name="numP" id="numP" value="<?php echo(!empty($_POST['numP'])?$_POST['numP']:'')?>"/></br>
+        <label for="numCap">Nº de Capitulos</label>
+        <input type="text" name="numCap" id="numCap" value="<?php echo(!empty($_POST['numCap'])?$_POST['numCap']:'')?>"/></br>
      
         <button type="submit" id="guardar" name="guardar">Guardar</button>
     </fieldset>
@@ -51,13 +53,30 @@
     if(isset($_POST['guardar'])){
 
         //validamos de que ningun campo puede estar vacio
-        if(empty($_POST['titulo']) || empty($_POST['fechaRegistro']) ||empty($_POST['numP'])){
+        if(empty($_POST['titulo']) || empty($_POST['fechaRegistro']) ||empty($_POST['numCap'])){
             echo "Error no puede haber ningun campo vacio";
         }
         else{
-            if($_POST['tipo']=='serie'){
-                $_POST['numP']>1;
+            //aqui lo que hago es si hemos pulsado el tipo y el tipo es igual a serie
+            //validamos que si esta relleno el campo numero de capitulos y el numero de capotulo es menos o igual que 1 nos tiene que mostrar un error
+            if(isset($_POST['tipo']) && $_POST['tipo']=='serie'){
+               
+                if(!empty($_POST['numCap']) && $_POST['numCap'] <= 1){
+                    echo 'Error el numero de capitulos debe de ser mayor que 1';
+                }
             }
+            
+            //Una vez echo todas las validaciones y no hya errores mostramos los datos 
+            ?>
+            <h2>Datos Correctos</h2>
+            <div style="border: 1px solid black;">
+                <p>Pelicula: <?php echo $_POST['titulo']?></p>
+                <p>Genero: <?php (isset($_POST['genero']) ? implode('/', $_POST['genero']) : '')?></p>
+            </div>
+            <?php
+
+
+
         }
 
     }
