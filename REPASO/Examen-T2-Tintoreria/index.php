@@ -18,9 +18,12 @@
             <label for="fechaEntrada">Fecha Entrada</label>
             <input type="date" name="fechaEntrada" id="fechaEntrada" value="<?php echo(!empty($_POST['fechaEntrada'])?$_POST['fechaEntrada']:date('Y-m-d'))?>"><br>
 
+              <!-- aqui lo que decimos si esta rellena el cliente, si la condicion es verdadera nos muestra el nombre del cliente y si no lo deja vacio-->
             <label for="cliente">Cliente</label>
             <input type="text" name="cliente" id="cliente" value="<?php echo(!empty($_POST['cliente'])?$_POST['cliente']:'') ?>"><br>
 
+              <!-- aqui lo que decimos si seleccionamos la prenda y es de tipo fiesta, si la condicion es verdadera nos selecciona el tipo de prenda y si no nos lo deja en vacio
+               al ser de tipo select es mas corrector que utilicemos un isset-->
             <label for="tipoPrenda">Tipo de Prenda</label>
             <select name="tipoPrenda" id="tipoPrenda">
                 <option <?php echo(isset($_POST['tipoPrenda']) && $_POST['tipoPrenda'] == 'fiesta' ? 'selected="selected"':'')?>>fiesta</option>
@@ -32,17 +35,17 @@
 
             <label>Servicio</label></br>
 
-            <input type="checkbox" name="servicio[]" id="limpieza" value="limpieza">
+            <input type="checkbox" name="servicio[]" id="limpieza" value="limpieza" <?php echo(isset($_POST['servicio']) && in_array('limpieza',$_POST['servicio'])?'checked="checked"':'')?>>
             <label for="limpieza">Limpieza</label>
 
-            <input type="checkbox" name="servicio[]" id="planchado" value="planchado">
+            <input type="checkbox" name="servicio[]" id="planchado" value="planchado" <?php echo(isset($_POST['servicio']) && in_array('planchado',$_POST['servicio'])?'checked="checked"':'')?>>
             <label for="planchado">Planchado</label>
 
-            <input type="checkbox" name="servicio[]" id="desmanchado" value="desmanchado">
+            <input type="checkbox" name="servicio[]" id="desmanchado" value="desmanchado" <?php echo(isset($_POST['servicio']) && in_array('desmanchado',$_POST['servicio'])?'checked="checked"':'')?>>
             <label for="desmanchado">Desmanchado</label></br>
 
             <label>Importe</label></br>
-            <input type="number" name="importe" id="importe">
+            <input type="number" name="importe" id="importe" value="<?php echo (!empty($_POST['importe'])?$_POST['importe']:'')?>">
 
             </br>
 

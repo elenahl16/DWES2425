@@ -92,4 +92,4 @@ require_once "Modelo.php";
     }
     ?>
 </body>
-</html>$_POST['genero']
+</html>
