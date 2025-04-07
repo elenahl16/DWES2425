@@ -1,6 +1,8 @@
 <?php
 require_once "Entrada.php";
 require_once "Modelo.php";
+//lo suyo que cuando creamos el objeto de modelo le declaremos al principio
+$f = new Modelo();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,16 +73,15 @@ require_once "Modelo.php";
 
         </fieldset>
     </form>
-</body>
-<?php
+    <?php
 //Si hemos pulsado en comprar
 if (isset($_POST['comprar'])) {
-
+    
     //aqui lo que hacemos es validar si los campos estan vacios
     if (empty($_POST['nombre']) || !isset($_POST['tipoEntrada']) || !isset($_POST['espectaculo']) || !isset($_POST['fechaEvento']) || empty($_POST['numEntrada'])) {
         echo 'Error campo vacio';
     } else {
-
+        
         //
         if ($_POST['numEntrada'] < 1 || $_POST['numEntrada'] > 4) {
             echo "Tiene que estar comprendido entre 1 y 4";
@@ -100,7 +101,7 @@ if (isset($_POST['comprar'])) {
                 } else {
                     $total = 5 * ($_POST['numEntrada']);
                 }
-
+                
                 //aqui lo que vamos hacer es calcular la parte de los descuentos si hemos seleccionado un descuento
                 if (isset($_POST['descuento'])) {
                     //cuidado porque descuento es un array y para comprobar si es igual hay que utilizar la funcion in_array
@@ -114,13 +115,13 @@ if (isset($_POST['comprar'])) {
                         $total *=  0.98;
                     }
                 }
-
-
+                
+                
                 //aqui abrimos una etiqueda de cerrar y abrir de php para pintar la tabla con html y esto lo que nos permite
                 //es poder escribir dentro de php codigo html y luego podemos seguir escribiendo codigo php
-?>
+                ?>
 
-                <table border="1">
+<table border="1">
                     <tr>
                         <th colspan="2">Ticket de Compra</th>
                     </tr>
@@ -153,16 +154,41 @@ if (isset($_POST['comprar'])) {
                 $e = new Entrada($_POST['nombre'], $_POST['tipoEntrada'], $_POST['fechaEvento'], $_POST['numEntrada'],
                 ( isset($_POST['descuento']) ? implode('/',$_POST['descuento']) : ''),
                  $total);
-                $f = new Modelo();
-
-                //aqui lo que hacemos es una condicion para insertar los datos al fichero, si es true nos muestra un mensaje de que se ha guardadp
-                if ($f->insertar($e)) {
-                    echo 'Entrada guardada';
+                 
+                 //aqui lo que hacemos es una condicion para insertar los datos al fichero, si es true nos muestra un mensaje de que se ha guardadp
+                 if ($f->insertar($e)) {
+                     echo 'Entrada guardada';
+                    }
                 }
             }
-        }
     }
 }
 ?>
+<table border="1 px solid">
+    <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Nª de entradas</th>
+        <th>Descuento</th>
+        <th>Total</th>
+    </tr>
+    <?php
 
-</html>|
+//en el ultimo corchete del primer if es donde nos posicionaremos para mostrar datos del fichero
+$entradas= $f->cargarEntradas();
+
+foreach($entradas as $e){
+    echo '<tr>';
+    echo '<td>'.$e->getNombreCliente().'</td>';
+    echo '<td>'.$e-> getFechaEvento().'</td>';
+    echo '<td>'.$e->getNumEntradas().'</td>';
+    echo '<td>'.$e-> getDescuento().'</td>';
+    echo '<td>'.$e-> getImporte().'</td>';
+    echo '</tr>';
+    
+}
+?>
+</table>
+</body>
+</html>

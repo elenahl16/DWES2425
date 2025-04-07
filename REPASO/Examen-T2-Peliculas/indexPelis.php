@@ -1,3 +1,8 @@
+<?php
+require_once "Pelicula.php";
+require_once "Modelo.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,6 +55,7 @@
     </form>
 
     <?php
+    //si pulsamos el boton guardar
     if(isset($_POST['guardar'])){
 
         //validamos de que ningun campo puede estar vacio
@@ -66,15 +72,19 @@
                 }
             }
             
-            //Una vez echo todas las validaciones y no hya errores mostramos los datos 
+            //Una vez echo todas las validaciones y no hay errores mostramos los datos, lo que hemos echo es poner el cierre de php
+            //y debajo lo abrimos eso lo que significa es que vamos a escribir codigo html CUIDADO NO OLVIDAR PONER ECHO SI NO NO MUESTRA NADA
             ?>
-            <h2>Datos Correctos</h2>
-            <div style="border: 1px solid black;">
-                <p>Pelicula: <?php echo $_POST['titulo']?></p>
-                <p>Genero: <?php (isset($_POST['genero']) ? implode('/', $_POST['genero']) : '')?></p>
-            </div>
+                <h2>Datos Correctos</h2>
+                <div style="border: 1px solid black;">
+                    <p>Pelicula: <?php echo $_POST['titulo']?></p>
+                    <p>Genero: <?php echo (isset($_POST['genero']) ? implode('/', $_POST['genero']) : 'Ninguno')?></p>
+                </div>
             <?php
 
+            //creamos el objeto peliculas
+            $p=new Pelicula($_POST['titulo'],$_POST['fechaRegistro'],
+            (isset($_POST['genero']) ? implode('/',$_POST['genero']): ''),$_POST['tipo'],$_POST['numCap']);
 
 
         }
@@ -82,4 +92,4 @@
     }
     ?>
 </body>
-</html>
+</html>$_POST['genero']
