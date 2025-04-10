@@ -13,16 +13,16 @@
 
         <label>Tipo de Cliente</label></br>
         <select name="tipoCliente" id="tipoCliente">
-            <option>empresa</option>
-            <option>particular</option>
-            <option>organimos publico</option>
+            <option selected=selected <?php echo(!empty($_POST['tipoCliente']) && $_POST['tipoCliente']=='empresa'?'selected="selected"':'')?>>empresa</option>
+            <option <?php echo(!empty($_POST['tipoCliente']) && $_POST['tipoCliente']=='particular'?'selected="selected"':'')?>>particular</option>
+            <option <?php echo(!empty($_POST['tipoCliente']) && $_POST['tipoCliente']=='organismos publicos'?'selected="selected"':'')?>>organimos publico</option>
         </select></br>
 
         <label>Nombre del Cliente</label>
-        <input type="text" name="nombre" id="nombre"></br>
+        <input type="text" name="nombre" id="nombre" value="<?php echo(!empty($_POST['nombre'])? $_POST['nombre']:'')?>"></br>
 
         <label>Email del Cliente</label></br>
-        <input type="email" name="nombre" id="nombre"></br>
+        <input type="email" name="email" id="email" value="<?php echo(!empty($_POST['email'])?$_POST['email']:'')?>"></br>
 
         <label>Tipo de motor</label></br>
      
@@ -60,10 +60,12 @@
 
         <label>Selecciona Vehiculo</label></br>
         <select name="vehiculo" id="vehiculo">
-            <option>for focus</option>
-            <option>citroen</option>
-            <option>peugot</option>
+            <option>Plan Renove (-2000)</option>
+            <option>Plan Green Energy (-2500)</option>
+            <option>Sin promocion</option>
         </select></br>
+        
+        <button type="submit" name="enviar" id="enviar">Enviar</button>
 
 
     </form>
