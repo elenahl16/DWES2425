@@ -56,7 +56,7 @@ else{
             <table width="100%">
                 <tr>
                     <td>
-                        <h3 style="color:blue">Id Rayuela</h3>
+                        <h3 style="color:blue">Id Rayuela</h3>  
                     </td>
                     <td>
                         <h3 style="color:blue">Nombre</h3>
@@ -67,11 +67,18 @@ else{
                     <td>
                         <h3 style="color:blue">Color Reservas</h3>
 
-                        <input type="color" name="color" />
+                        <input type="color" name="color" value="<?php echo(isset($_COOKIE['color'])?$_COOKIE['color'] :'')?>"/>
                         <input type="submit" name="cambiarColor" value="cambiar" />
                     </td>
                     <td>
                         <input type="submit" name="salir" value="Salir" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><?php echo $_SESSION['usuario']->getIdRayuela();?> </td>
+                    <td><?php echo $_SESSION['usuario']->getNombre();?> </td>
+                    <td><?php echo $_SESSION['usuario']->getNumReservas();?> </td>
+                    <td>
                     </td>
                 </tr>
             </table>
@@ -79,6 +86,9 @@ else{
         <!-- Seleccionar Recurso -->
         <section>
             <h3 style="color:blue">Selecciona Recurso</h3>
+            <?php 
+                $recurso=$bd->otbtenerRecurso();
+            ?>
             <select name="recurso">
             </select>
             <input type="submit" name="verR" value="verReservas" />
