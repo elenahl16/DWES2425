@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Recurso;
+
 require_once 'Usuario.php';
 require_once 'Recursos.php';
 require_once 'Reservas.php';
@@ -51,21 +54,58 @@ class Modelo
         return $respuesta;
     }
 
-    function otbtenerRecurso(){
+    function otbtenerRecursos()
+    {
         $respuesta = array();
 
         try {
             //primero lo que hacemos es la consulta que seria con prepare
             $consulta = $this->conexion->query('SELECT * FROM recursos');
-            
-            
-        
+
+            while ($fila = $consulta->fetch()) {
+                //aqui lo que queremos hacer es guardar
+                $respuesta[] = new Recursos(
+                    $fila['id'],
+                    $fila['nombre'],
+                    $fila['tipo'],
+                    $fila['descripcion']
+                );
+            }
         } catch (PDOException $th) {
             global $mensaje;
             $mensaje = $th->getMessage();
         }
 
-        return $respuesta;  
+        return $respuesta;
+    }
+
+    function obtenerReservas($recurso)
+    {
+        $respuesta = [];
+
+        try {
+            $consulta = $this->conexion->prepare('SELECT re.*, u.nombre as nombreU, rec.nombre as nombreR FROM reservas as re 
+                                                 join recursos as rec on recurso =rec.id
+                                                 join usuarios as u on usuario = idRayuela
+                                                 where recurso = ? and anulada=false 
+                                                 order by fecha desc;');
+            $params = array($recurso);
+            if ($consulta->execute($params)) {
+                while ($fila = $consulta->fetch()) {
+                    $respuesta[] = new Reservas(
+                        $fila['id'],
+                        new Usuarios($fila['usuario'],$fila['nombreU'],null,null),
+                        new Recursos(null,$fila['nombreR']),
+                        $fila['fecha'],
+                        $fila['hora'],
+                        $fila['anulada']
+                    );
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $respuesta;
     }
 
     /**

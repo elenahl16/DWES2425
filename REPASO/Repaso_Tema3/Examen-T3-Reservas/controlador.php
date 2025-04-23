@@ -32,4 +32,8 @@ if (isset($_POST['acceder'])) {
     //aqui lo que hacemos es rellenar el valor de la cockie
     setcookie('color', $_POST['color']);
     header('location:index.php');
+
+} elseif (isset($_POST['verR'])) {
+    //aqui lo que hacemos es guardar en la variabla reservas
+    $reservas=$bd->obtenerReservas($_POST['recurso']);
 }
