@@ -5,12 +5,11 @@ class Modelo{
 
 
     function __construct(){
-            try {
-                //aqui vamos hacer la conexion a la base de datos
-
-            } catch (PDOException $th) {
-                echo $th->getMessage();
-            }
+        try {
+            //aqui vamos hacer la conexion a la base de datos
+        } catch (PDOException $th) {
+            echo $th->getMessage();
+        }
     }
 
 
