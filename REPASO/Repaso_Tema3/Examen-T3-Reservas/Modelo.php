@@ -138,9 +138,10 @@ class Modelo
 		try {
 			
 			$this->conexion->beginTransaction();
-			//Consulta para insertar la reserva
+			//Consulta para insertar la reserva, utilizamos una transaccion porque estamos haciendo varias operaciones
 			$consulta=$this->conexion->prepare('INSERT into reservas(recurso,usuario,hora,fecha) values (?,?,?,?)');
 			$params=array($r->getRecurso(),$r->getUsuario(),$r->getHora(),$r->getFecha());
+
 			if($consulta->execute($params) and $consulta->rowCount()==1){
 				$consulta=$this->conexion->prepare('UPDATE usuarios set numReservas=numReservas + 1 where idRayuela= ?');
 				$params=array($r->getUsuario());

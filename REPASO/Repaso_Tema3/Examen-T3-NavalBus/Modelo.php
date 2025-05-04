@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Arr;
+
 require_once "Linea.php";
 require_once "Billete.php";
 require_once "Servicio.php";
@@ -23,7 +26,7 @@ class Modelo
     function obtenerLinea($id)
     {
 
-        //* en la consulta para obtener la linea solo se va a mostrar un objeto por lo tanto declaramos $resultado=null
+        //* en la consulta para obtener la linea solo se va a mostrar un objeto por lo tanto declaramos $resultado=null donde nos devuelve un objeto
         //* si nos devuelve mas de un dato entonces lo guardamos en array
         $resultado = null;
 
@@ -73,7 +76,7 @@ class Modelo
     function obtenerConductor($id)
     {
 
-        $resultado = array();
+        $resultado = null;
 
         try {
             $consulta = $this->conexion->prepare('SELECT * FROM Conductores
@@ -83,14 +86,84 @@ class Modelo
             if ($consulta->execute($params)) {
 
                 if ($fila = $consulta->fetch()) {
-                    $resultado[] = new Conductor($fila['id'], $fila['nombreApe'], 
-                    $fila['telefono'], $fila['fechaContrato']);
+                    $resultado = new Conductor(
+                        $fila['id'],
+                        $fila['nombreApe'],
+                        $fila['telefono'],
+                        $fila['fechaContrato']
+                    );
                 }
             }
         } catch (PDOException $th) {
             echo $th->getMessage();
         }
         return $resultado;
+    }
+
+    function crearServicio($c, $l)
+    {
+        //metodo donde vamos a crear un servicio para linea y conductore
+        $resultado = false;
+
+        try {
+            //primero preparamos la consulta
+            $consulta = $this->conexion->prepare('INSERT INTO servicios values (default,now(),?,?,0,false)');
+
+            //Despues tenemos que rellenar los parametros
+            $params = array($c->getId(), $l->getId());
+
+            //ejecutamos la consulta, el rowCount lo que hace cuántas filas nuevas se insertaron depende de donde lo utilicemos.
+            if ($consulta->execute($params)) {
+                if ($consulta->rowCount() == 1) {
+                    $resultado = true;
+                }
+            }
+        } catch (PDOException $th) {
+            echo $th->getMessage();
+        }
+
+        return $resultado;
+    }
+
+    function ObtenerPrecioActual($tipo){
+        
+        $resultado=0;
+
+        try {
+           //* Primero preparamos la consulta SQL con parámetro. Va a llamar a la función de MySQL 
+           //* ObtenerPrecioActual(?), pasando el valor que luego le asignarás.
+           $consulta=$this->conexion->prepare('SELECT ObtenerPrecioActual(?)');
+
+           //* Prepara el array de parámetros para usarlo al ejecutar la consulta. 
+           $params=array($tipo);
+            
+           //* Ejecutamos la consulta e preparada con los parámetros dados.
+           if($consulta->execute($params)){
+            //* Obtiene el primer resultado devuelto por la función MySQL. Devuelve un unico valor que seria un numero decimal
+               
+                if($fila=$consulta->fetch()){
+                    //? Guarda el valor numérico devuelto por la función ObtenerPrecioActual en la variable $resultado.
+                    $resultado= $fila[0];
+                }
+           }
+        } catch (PDOException $th) {
+            echo $th->getMessage();
+        }
+        return $resultado;
+    }
+
+    function obtenerBilletes(){
+        
+        $resultado=array();
+
+        try {
+            $consulta=$this->conexion->prepare('SELECT * FROM billetes as b
+                                             join lineas as l on l.id =b.linea
+                                            where conductor= ?');
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
