@@ -125,45 +125,121 @@ class Modelo
         return $resultado;
     }
 
-    function ObtenerPrecioActual($tipo){
-        
-        $resultado=0;
+    function obtenerPrecio($tipo)
+    {
+
+        $resultado = 0;
 
         try {
-           //* Primero preparamos la consulta SQL con parámetro. Va a llamar a la función de MySQL 
-           //* ObtenerPrecioActual(?), pasando el valor que luego le asignarás.
-           $consulta=$this->conexion->prepare('SELECT ObtenerPrecioActual(?)');
+            //* Primero preparamos la consulta con parámetro. Va a llamar a la función de MySQL 
+            //* ObtenerPrecioActual(?), pasando el valor que luego le asignarás.
+            $consulta = $this->conexion->prepare('SELECT ObtenerPrecioActual(?)');
 
-           //* Prepara el array de parámetros para usarlo al ejecutar la consulta. 
-           $params=array($tipo);
-            
-           //* Ejecutamos la consulta e preparada con los parámetros dados.
-           if($consulta->execute($params)){
-            //* Obtiene el primer resultado devuelto por la función MySQL. Devuelve un unico valor que seria un numero decimal
-               
-                if($fila=$consulta->fetch()){
+            //* Prepara el array de parámetros para usarlo al ejecutar la consulta. 
+            $params = array($tipo);
+
+            //* Ejecutamos la consulta e preparada con los parámetros dados.
+            if ($consulta->execute($params)) {
+                //* Obtiene el primer resultado devuelto por la función MySQL. Devuelve un unico valor que seria un numero decimal
+
+                if ($fila = $consulta->fetch()) {
                     //? Guarda el valor numérico devuelto por la función ObtenerPrecioActual en la variable $resultado.
-                    $resultado= $fila[0];
+                    $resultado = $fila[0];
                 }
-           }
+            }
         } catch (PDOException $th) {
             echo $th->getMessage();
         }
         return $resultado;
     }
 
-    function obtenerBilletes(){
-        
-        $resultado=array();
+    function obtenerBilletes($c)
+    {
+
+        $resultado = array();
 
         try {
-            $consulta=$this->conexion->prepare('SELECT * FROM billetes as b
-                                             join lineas as l on l.id =b.linea
+            //preparamos la consulta 
+            $consulta = $this->conexion->prepare('SELECT * FROM billetes as b
+                                            join lineas as l on l.id =b.linea
                                             where conductor= ?');
 
+            $params = array($c->getId());
+            if ($consulta->execute($params)) {
+                if ($fila = $consulta->fetch()) {
+                    $resultado[] = new Billete(
+                        $fila('id'),
+                        $fila('conductor'),
+                        new Linea(
+                            $fila('id'),
+                            $fila('nombre'),
+                            $fila('origen'),
+                            $fila('destino')
+                        ),
+                        $fila('fecha'),
+                        $fila('tipo'),
+                        $fila('precio')
+                    );
+                }
+            }
         } catch (\Throwable $th) {
-            //throw $th;
+            echo $th->getMessage();
         }
+        return $resultado;
+    }
+
+    function obtenerRecaudado($c, $l)
+    {
+
+        //el resultado que nos va a devolver va a ser numerico, este metodo obtener el dinero recaudado de un servicio
+        $resultado = 0;
+
+        try {
+            $consulta = $this->conexion->prepare('SELECT recaudacion FROM servicios
+                                                WHERE conductor= ? AND linea=? AND finalizado=0');
+            $params = array($c->getId(), $l->getId());
+
+            if ($consulta->execute($params)) {
+
+                if ($fila = $consulta->fetch()) {
+                    $resultado = $fila['recaudacion'];
+                }
+            }
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+        return $resultado;
+    }
+
+    function venderBilletes($c, $l, $tipo, $precio)
+    {
+        //vamos a hacer un metodo donde tenemos que insertar y actualizar tenemos que usar una transaccion
+        $resultado = false;
+
+        try {
+
+            $this->conexion->beginTransaction(); //empezamos la transaccion
+            //primero preparamos la consulta para insertar
+            $consulta = $this->conexion->prepare('INSERT INTO billetes VALUES(default,?,?,now(),?,?');
+            $params = array($c->getId(), $l->getId(), $tipo, $precio);
+
+            if ($consulta->execute($params) and $consulta->rowCount() == 1) {
+                //luego preparamos la otra consulta para actualizar 
+                $consulta = $this->conexion->prepare('UPDATE servicios SET recaudacion=recaudacion ?
+                                                     where conductor = ? and linea = ?
+                                                     and finalizado = 0');
+
+                $params = array($c->getId(), $l->getId(), $precio);
+                if ($consulta->execute($params) and $consulta->rowCount() == 1) {
+                    $this->conexion->commit();
+                    $resultado = true;
+                }
+            }
+        } catch (\Throwable $th) {
+            $this->conexion->rollback();
+            echo $th->getMessage();
+        }
+        return $resultado;
     }
 
     /**

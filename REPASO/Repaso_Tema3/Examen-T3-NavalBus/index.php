@@ -67,7 +67,12 @@ if ($bd->getConexion() == null) {
 			</select>
 			<button type="submit" name="vender">Vender</button>
 			<button type="submit" name="fin">Finalizar Servicio</button>
-			<h3 style="color:blue">Recaudado:</h3>
+			<h3 style="color:blue">Recaudado:
+			<?php 
+			//llamamos al metodo obtenerRecaudo y lo mostramos
+				echo $bd->obtenerRecaudado($_SESSION['conductor'],$_SESSION['linea']);
+			?>
+			</h3>
 			<table width="100%">
 				<tr>
 					<td>

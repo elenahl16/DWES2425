@@ -30,9 +30,19 @@ if (isset($_POST['iniciar'])) {
     } else {
         $mensaje = "Error no existe ese conductor";
     }
+
+}elseif(isset($_POST['vender'])){ //Si pulsamos al boton vender
+
+    //tenemos que comprobar cuanto vale el billete para poder venderle
+    $precioB=$bd->obtenerPrecio($_POST['tipo']);
+
+    //una vez que sabemos el precio, vendemos el billete
+    if($bd->venderBilletes($_SESSION['conductor'],$_SESSION['linea'],$_POST['tipo'],$precioB)){
+        $mensaje="El billete ha sido vendido";
+
+    }else{
+        $mensaje="Error, no se ha podido vender el billete";
+    }
 }
 
-//Si pulsamos al boton vender
-if(isset($_POST['vender'])){
 
-}
