@@ -54,7 +54,7 @@ class Modelo
         return $respuesta;
     }
 
-    function otbtenerRecursos()
+    function obtenerRecursos()
     {
         $respuesta = array();
 

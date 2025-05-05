@@ -86,7 +86,7 @@ if ($bd->getConexion() == null) {
                 <section>
                     <h3 style="color:blue">Selecciona Recurso</h3>
                     <?php
-                    $recurso = $bd->otbtenerRecursos();
+                    $recurso = $bd->obtenerRecursos();
                     ?>
                     <select name="recurso">
                         <?php

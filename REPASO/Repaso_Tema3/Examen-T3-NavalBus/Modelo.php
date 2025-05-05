@@ -107,7 +107,7 @@ class Modelo
 
         try {
             //primero preparamos la consulta
-            $consulta = $this->conexion->prepare('INSERT INTO servicios values (default,now(),?,?,0,false)');
+            $consulta = $this->conexion->prepare('INSERT INTO Servicios values (default,now(),?,?,0,false)');
 
             //Despues tenemos que rellenar los parametros
             $params = array($c->getId(), $l->getId());
