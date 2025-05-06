@@ -20,7 +20,7 @@ if (isset($_POST['acceder'])) {
             header('location:index.php'); //aqui lo que hacemos es redirigir a la pagina principal
         } else {
             $mensaje = 'Error, el usuario y la contraseña es incorrecta';
-        }
+        } 
     }
 } elseif (isset($_POST['salir'])) { //si se ha pulsado el boton de salir
     //lo que hacemos es destruir la sesion y redirigir a la pagina principal

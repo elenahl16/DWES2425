@@ -39,6 +39,7 @@ if ($bd->getConexion() == null) {
 				//*aqui recorremos todos las lineas que hay en la base de datosd esta manera es mas directa 
 				foreach ($bd->obtenerLineas() as $l) {
 					echo '<option value="' . $l->getId()  . '">' . $l->getNombre() . '</option>';
+					
 				}
 				?>
 			</select>
