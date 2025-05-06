@@ -9,6 +9,6 @@ class Concierto extends Model{
 
     function entradas(){
         //Relación 1:N entre conciertos y libro
-        return $this->hasMany(Concierto::class);
+        return $this->hasMany(Concierto::class)->get();
     }
 }

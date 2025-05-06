@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::controller(ConciertoC::class)->group(
     function (){
         //Utilizamos get para ver los datos, post para añadir
-        // Route::get('nombreRutal,'nombreMetodo')->name('nombreAlias');
+        // Route::get('nombreRuta,'nombreMetodo')->name('nombreAlias');
 
         Route::get('inicio','inicioMetodo')->name('rI');
         Route::get('entradas/{idConcierto}','entradasM')->name('rE');
