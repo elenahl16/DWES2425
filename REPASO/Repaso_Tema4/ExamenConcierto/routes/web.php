@@ -13,9 +13,9 @@ Route::controller(ConciertoC::class)->group(
         //Utilizamos get para ver los datos, post para añadir
         // Route::get('nombreRuta,'nombreMetodo')->name('nombreAlias');
 
-        Route::get('inicio','inicioMetodo')->name('rI');
-        Route::get('entradas/{idConcierto}','entradasM')->name('rE');
+        Route::get('inicio','inicioM')->name('rI');
+        Route::get('entradas','entradasM')->name('rE');
         Route::post('entradas/{idConcierto}','venderM')->name('rV');
-        Route::post('concierto/{idConcierto}','borrarConciertoM')->name('rB');
+        Route::delete('concierto/{idConcierto}','borrarConciertoM')->name('rB');
     }
 );

@@ -62,6 +62,7 @@ if ($bd->getConexion() == null) {
                         foreach ($bd->obtenerNotas() as $n) {
                             echo '<tr>';
                             echo '<td>' . $n->getId() . '</td>';
+                            echo '<td>' . $n->getFecha() . '</td>';
                             echo'</tr>';
                         }
                         ?>

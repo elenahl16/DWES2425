@@ -63,7 +63,7 @@ class Modelo
                                                 order by fecha DESC');
 
             while ($fila = $consulta->fetch()) {
-                $resultado[] = new Notas($fila['asignatura'], $fila['fecha'],$fila['tipo'],$fila['descripcion'],$fila['nota']);
+                $resultado[] = new Notas($fila['id'],$fila['asignatura'], $fila['fecha'],$fila['tipo'],$fila['descripcion'],$fila['nota']);
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();
