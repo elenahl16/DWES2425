@@ -16,6 +16,6 @@ Route::controller(ConciertoC::class)->group(
         Route::get('inicio','inicioM')->name('rI');
         Route::get('entradas','entradasM')->name('rE');
         Route::post('entradas/{idConcierto}','venderM')->name('rV');
-        Route::delete('concierto/{idConcierto}','borrarConciertoM')->name('rB');
+        Route::delete('concierto/{idConcierto}','borrarM')->name('rB');
     }
 );

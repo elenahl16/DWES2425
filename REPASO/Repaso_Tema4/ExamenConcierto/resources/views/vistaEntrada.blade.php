@@ -11,13 +11,24 @@
         <h2 style="color: red">{{session('mensaje')}}</h2>
     @endif
 
-    <h2>Concierto:{{$concierto->titulo}}</h2>
-    <h2>Aforo:{{$concierto->aforo}}</h2>
-    <h2>PrecioEntrada:{{$concierto->precioEntrada}}</h2>
-    <h2> <a href="{{route('rI')}}">Inicio </a> </h2>
+    <form action="{{route('rB',$concierto->id)}}" method="post">
+        @method('Delete')
+
+
+        @csrf
+        <h2>
+            Concierto:{{$concierto->titulo}}
+            <button type="submit" name="borrar" id="borrar">Borrar</button>
+        </h2>
+        <h2>Aforo:{{$concierto->aforo}}</h2>
+        <h2>PrecioEntrada:{{$concierto->precioEntrada}}</h2>
+        <h2> <a href="{{route('rI')}}">Inicio </a> </h2>
+    </form>
+
 
     <form action="{{route('rV',$concierto->id)}}" method="post">
         @csrf
+
         <label for="email">Email</label>
         <input type="email" name="email" id="email" value="{{old('email')}}"/> <!-- con el old lo que hace es recordar los datos-->
 
@@ -39,17 +50,17 @@
     <!-- aqui vamos a pintar una tabla para las entradas-->
     <table border="1">
         <tr>
-            <td>id</td>
-            <td>fecha</td>
-            <td>email</td>
-            <td>aforo</td>
+            <td>Id</td>
+            <td>Fecha</td>
+            <td>Email</td>
+            <td>Aforo</td>
         </tr>
-    @foreach ($concierto->$entradas() as $e)
+    @foreach ($concierto->entradas() as $e)
         <tr>
             <td>{{$e->id}}</td>
-            <td>{{$e->fecha}}</td>
+            <td>{{$e->created_at}}</td>
             <td>{{$e->email}}</td>
-            <td>{{$e->aforo}}</td>
+            <td>{{$e->numEntradas}}</td>
         </tr>
 
     @endforeach

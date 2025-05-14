@@ -10,11 +10,16 @@
     <form action="{{route('rE')}}" method="get">
         <h3>Selecciona un concierto</h3>
 
+        @if (session('mensaje'))
+            <h2 style="color: red">{{session('mensaje')}}</h2>
+        @endif
+
         <select name="c">
             @foreach ($conciertos as $c)
                 <option value="{{$c->id}}">{{$c->titulo}}</option>
             @endforeach
         </select>
+
         <button type="submit" name="btnEntradas" id="btnEntradas">Entradas</button>
         <h3>Listado de Conciertos</h3>
 

@@ -8,7 +8,7 @@ class Entrada extends Model
 {
 
     function concierto(){
-        //Relación 1:N entre conciertos y libro
+        //Relación 1:N entre conciertos y entrada
         return $this->belongsTo(Concierto::class);
     }
 }
