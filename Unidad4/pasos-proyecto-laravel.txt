@@ -6,9 +6,17 @@ nombre de como queremos llamar a la bd y poner el usuario y contraseña.
 3. Despues tenemos que crear las migraciones para nuestra base de datos, tenemos que hacer la migracion de la
 tabla donde está definida la clave primaria debe estar creada antes y despues la otra porque hay que tener cuidado co las FK.
 
-CREAR MIGRACION --> php artisan make:migration create_NOMBRETABLA_table
+CREAR MIGRACION SOLO --> php artisan make:migration create_NOMBRETABLA_table
 CREA LA MIGRACION Y EL MODELO --> php artisan make:model NOMBRETABLA –-migration
 EJECUTAR MIGRACIONES--> php artisan migrate
+CREAR LOS SEEDER--> php artisan make:seeder NOMBRETABLA
+EJECUTAR LOS SEEDER--> php artisan db:seed --class=NOMBRETABLA
 CREAR CONTROLADOR --> php artisan make:controller cocheControler
 
-4. Una vez hecho todo lo anterior para inicializar los datos tenemos que hacerlo con los seeder 
+4. Una vez hecho todo lo anterior para inicializar los datos tenemos que hacerlo con los seeder para añadir 
+datos a los campos de la tabla que queramos.
+
+5.Hacemos en el modelo las relaciones que tienen entre las tablas, la nomenclatura tiene que ser en 
+minuscula el nombre del modelo. Creamos las rutas necesarias y luego el controlador donde va a estar la lógica
+
+6.
