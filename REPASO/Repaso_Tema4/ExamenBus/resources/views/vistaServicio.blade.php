@@ -7,9 +7,25 @@
     <title>servicio</title>
 </head>
 <body>
-    <h1>Conductor:  DNI:
+    @if(session('mensaje'))
+        <h2 style="color: red">{{session('mensaje')}}</h2>
+    @endif
+
+    <h1>Conductor:{{$c->nombre}}  DNI:{{$c->dni}}  <br>
         <a href="{{route('rI')}}">Salir</a>
     </h1>
+    <h1>Servicio:    Fecha:     Recaudación:</h1>
+
+    <form action="{{route('rB')}}" method="post">
+        @csrf
+        <label for="">Tipo de Billete</label>
+        <select name="tipoBillete" id="tipoBillete">
+            <!--aqui dentro recorremos con un foreach-->
+
+        </select>
+        <button type="submit" name="registrar">Registrar Billete</button>
+
+    </form>
 
 </body>
 </html>

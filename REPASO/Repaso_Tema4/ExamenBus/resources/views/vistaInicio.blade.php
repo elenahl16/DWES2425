@@ -13,9 +13,16 @@
         <h2 style="color: red">{{session('mensaje')}}</h2>
     @endif
 
-    <form action="" method="get">
-        <label for="dni">Conductor</label>
+    <form action="{{route('rS')}}" method="post">
+        @csrf
+        
+        <label>Conductor</label>
         <input type="text" name="dni" id="dni">
+
+        @error('dni')
+         <h2 style="color: red">Debes rellenar el dni del conductor</h2>
+        @enderror
+
         <button type="submit" name="btnServicio" id="btnServicio">Ir a Servicio</button>
     </form>
 </body>
