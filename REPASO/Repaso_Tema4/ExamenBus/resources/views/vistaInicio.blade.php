@@ -7,14 +7,16 @@
     <title>Vista Inicio</title>
 </head>
 <body>
-    <h3>Identificacion del Conductor</h3>
+    <h1>Identificacion del Conductor</h1>
 
-    <form action=""  method="get">
+    @if (session('mensaje'))
+        <h2 style="color: red">{{session('mensaje')}}</h2>
+    @endif
+
+    <form action="" method="get">
         <label for="dni">Conductor</label>
-        <input type="text" name="dni" id="dn">
-
+        <input type="text" name="dni" id="dni">
         <button type="submit" name="btnServicio" id="btnServicio">Ir a Servicio</button>
-
     </form>
 </body>
 </html>

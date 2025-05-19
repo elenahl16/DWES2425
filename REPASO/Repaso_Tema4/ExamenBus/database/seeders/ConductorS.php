@@ -13,7 +13,7 @@ class ConductorS extends Seeder
      */
     public function run(): void
     {
-        //Aqui  vamos a insertar los datos de la tabla Conducto
+        //Aqui  vamos a insertar los datos de la tabla Conductors
         DB::table('conductors')->insert([
             'nombre'=>'Carlos',
             'dni'=>'1111111A'

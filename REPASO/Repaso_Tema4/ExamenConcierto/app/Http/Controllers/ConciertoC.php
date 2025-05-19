@@ -19,7 +19,7 @@ class ConciertoC extends Controller
 
     function entradasM(Request $r)
     {
-        //obtenemos los datos del concierto, el request van a estar todos los campos del formulario
+        //obtenemos los datos del concierto, el request es un objeto van a estar todos los campos del formulario
         $concierto = Concierto::find($r->c);
 
         if ($concierto == null) {
