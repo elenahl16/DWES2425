@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Billete;
 use App\Models\Conductor;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
@@ -74,10 +75,12 @@ class ConductorC extends Controller
                 $servicio=Servicio::where('conductor_id',$conductor->id)->where('fecha', date('Y-m-d'))->first();
 
                 if($servicio==null){
-                    return back()->with('mensaje', 'Error no existe ningun conductor con ese dni');
+                    return back()->with('mensaje', 'Error: el conductor no tiene servicio asignado para hoy');
                 }else{
+                    //si hay servicios comprobamos los billetes que hat
+                    $billete=Billete::all();
 
-                    return view('vistaServicio',compact($conductor,$servicio));
+                    return view('vistaServicio',compact('conductor','servicio','billete'));
                 }
 
             }

@@ -11,16 +11,16 @@
         <h2 style="color: red">{{session('mensaje')}}</h2>
     @endif
 
-    <h1>Conductor:{{$conductor->nombre}}  DNI:{{$conductor->dni}}  <br>
-        <a href="{{route('rI')}}">Salir</a>
-    </h1>
-    <h1>Servicio:    Fecha:     Recaudación:</h1>
+    <h3>Conductor:{{$conductor->nombre}}  DNI:{{$conductor->dni}} <a href="{{route('rI')}}">Salir</a></h3>
+    <h3>Servicio:{{$servicio->conductor_id}} Fecha:{{$servicio->fecha}}  Recaudación:{{$servicio->recaudacion}}</h3>
 
-    <form action="{{route('rB')}}" method="post">
+    <form action="{{route('rB',$conductor->id)}}" method="post">
         @csrf
+
         <label for="">Tipo de Billete</label>
         <select name="tipoBillete" id="tipoBillete">
             <!--aqui dentro recorremos con un foreach-->
+
 
         </select>
         <button type="submit" name="registrar">Registrar Billete</button>
