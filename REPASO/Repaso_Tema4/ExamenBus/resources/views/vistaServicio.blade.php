@@ -11,7 +11,7 @@
         <h2 style="color: red">{{session('mensaje')}}</h2>
     @endif
 
-    <h1>Conductor:{{$c->nombre}}  DNI:{{$c->dni}}  <br>
+    <h1>Conductor:{{$conductor->nombre}}  DNI:{{$conductor->dni}}  <br>
         <a href="{{route('rI')}}">Salir</a>
     </h1>
     <h1>Servicio:    Fecha:     Recaudación:</h1>

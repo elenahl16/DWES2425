@@ -62,7 +62,25 @@ class ConductorC extends Controller
     function mostrarBillete($idC){
 
         try {
-            //
+            //primero tenemos que recuperar el conductor
+            $conductor=Conductor::find($idC);
+
+            //comprobamos que el conductor existe
+            if($conductor == null){
+                return back()->with('mensaje', 'Error no existe ningun conductor con ese dni');
+
+            }else{
+                //si existe comprobamos el servicio, hacemois una consulta con where comprobando el dni del conductor y la fecha
+                $servicio=Servicio::where('conductor_id',$conductor->id)->where('fecha', date('Y-m-d'))->first();
+
+                if($servicio==null){
+                    return back()->with('mensaje', 'Error no existe ningun conductor con ese dni');
+                }else{
+
+                    return view('vistaServicio',compact($conductor,$servicio));
+                }
+
+            }
 
         } catch (\Throwable $th) {
             return back()->with('mensaje', $th->getMessage());
