@@ -16,4 +16,5 @@ Route::controller(ConductorC::class)->group(function () {
     Route::get('inicio','inicioM')->name('rI');
     Route::post('servicio', 'verServicio')->name('rS');
     Route::get('billete/{idC}','mostrarBillete')->name('rB');
+    Route::post('ventaBillete/{idS}','venderBillete')->name('rv');
 });

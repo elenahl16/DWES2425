@@ -6,7 +6,7 @@ use App\Models\Billete;
 use App\Models\Conductor;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class ConductorC extends Controller
 {
@@ -16,7 +16,8 @@ class ConductorC extends Controller
         return view('vistaInicio');
     }
 
-    function verServicio(Request $r){
+    function verServicio(Request $r)
+    {
 
         //primero comprobamos que se ha rellenado el dni lo hacemos con validate,
         // utilizamos find cuando queremos buscar por clave primaria
@@ -33,7 +34,6 @@ class ConductorC extends Controller
             //comprobamos que ese conductor exista, si no existe le
             if ($conductor == null) {
                 return back()->with('mensaje', 'Error no existe ningun conductor con ese dni');
-
             } else {
                 //si existe comprobamos que ese conductor tiene servicios cuando tenemos que hacer una
                 //consulta que tenga and se pone otro where
@@ -50,9 +50,34 @@ class ConductorC extends Controller
                     $s->recaudacion = 0;
                     $s->save(); //guardamos para insertarlo
 
+                }
+                //si hay servicio tenemos que redirigir a una ruta con parametros
+                return redirect()->route('rB', $conductor->id);
+            }
+        } catch (\Throwable $th) {
+            return back()->with('mensaje', $th->getMessage());
+        }
+    }
+
+    function mostrarBillete($idC)
+    {
+
+        try {
+            //primero tenemos que recuperar el conductor
+            $conductor = Conductor::find($idC);
+
+            //comprobamos que el conductor existe
+            if ($conductor == null) {
+                return back()->with('mensaje', 'Error no existe ningun conductor con ese dni');
+            } else {
+                //si existe comprobamos el servicio, hacemois una consulta con where comprobando el dni del conductor y la fecha
+                $servicio = Servicio::where('conductor_id', $conductor->id)->where('fecha', date('Y-m-d'))->first();
+
+                if ($servicio == null) {
+                    return back()->with('mensaje', 'Error: el conductor no tiene servicio asignado para hoy');
                 } else {
-                    //si hay servicio tenemos que redirigir a una ruta con parametros
-                    return redirect()->route('rB', $conductor->id);
+
+                    return view('vistaServicio', compact('conductor', 'servicio'));
                 }
             }
         } catch (\Throwable $th) {
@@ -60,34 +85,30 @@ class ConductorC extends Controller
         }
     }
 
-    function mostrarBillete($idC){
+    function venderBillete(Request $r, $idS) {
+        //tengo que hacer una transaccion porque quiero crear un billete y actualizar la recaudacion del servicio
 
         try {
-            //primero tenemos que recuperar el conductor
-            $conductor=Conductor::find($idC);
+            DB::transaction(function () use ($r, $idS) {
+                //creamos la entrada
+                $billete = new Billete();
 
-            //comprobamos que el conductor existe
-            if($conductor == null){
-                return back()->with('mensaje', 'Error no existe ningun conductor con ese dni');
+                //vamos rellenando los datos que tiene un billete
+                $billete->servicio_id = $idS;
+                $billete->hora = time('H:m:s');
+                $billete->precio = $r->tipoBillete;
+                $billete->anulado = 0;
 
-            }else{
-                //si existe comprobamos el servicio, hacemois una consulta con where comprobando el dni del conductor y la fecha
-                $servicio=Servicio::where('conductor_id',$conductor->id)->where('fecha', date('Y-m-d'))->first();
+                //lo guardamos para insertarlos
+                $billete->save();
 
-                if($servicio==null){
-                    return back()->with('mensaje', 'Error: el conductor no tiene servicio asignado para hoy');
-                }else{
-                    //si hay servicios comprobamos los billetes que hat
-                    $billete=Billete::all();
+                //tengo que obtener el servicio y aumentar la recaudacion tengo que hacer una consulta con fin
+                //
+                $servicio=Servicio::find($idS);
 
-                    return view('vistaServicio',compact('conductor','servicio','billete'));
-                }
-
-            }
-
+            });
         } catch (\Throwable $th) {
             return back()->with('mensaje', $th->getMessage());
         }
-
     }
 }

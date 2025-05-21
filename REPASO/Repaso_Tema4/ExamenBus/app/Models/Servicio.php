@@ -5,9 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Servicio extends Model{
-    //belongTo significa que "1:1"
+    //hasMany significa que "1:N"
 
     function billetes(){
-        return $this->belongsTo(Billete::class);
+        return $this->hasMany(Billete::class)->get();
+    }
+
+    function Conductor(){
+        return $this->belongsTo(Conductor::class);
+
     }
 }
