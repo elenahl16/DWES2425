@@ -1,0 +1,15 @@
+--------------------------- APUNTES TEMA 3 PARA HACER CONSULTAS PHP -----------------
+1. Primero lo que tenemos que hacer es crear un archivo llamado 'Modelo.php' donde vamos hacer la conexion 
+a la base de datos en el constuctor; Hay muchas formas para hacer la conexion esta es una de ellas:
+
+
+    function __construct(){
+
+        //primero lo que hacemos es la conexion a la base de datos
+        try {
+            $this->conexion=new PDO('mysql:host=localhost;port=3306;dbname=misnotas','root','root');
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+    }        
+    
