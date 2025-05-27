@@ -19,7 +19,18 @@ class Modelo{
 
     function obtenerAsignaturas(){
         
+        $resultado=array();
+
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
+
+    
+        
+    
 
     /**
      * Get the value of conexion

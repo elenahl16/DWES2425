@@ -11,5 +11,6 @@ a la base de datos en el constuctor; Hay muchas formas para hacer la conexion es
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
-    }        
-    
+    }  
+
+ACUERDATE QUE SI HACEMOS UN BOTON PARA CERRAR LA SESION TIENE QUE ESTAR DENTRO DE UN FORMULARIO   
